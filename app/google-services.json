@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "276598365349",
+    "firebase_url": "https://duofactorauthentication4471.firebaseio.com",
+    "project_id": "duofactorauthentication4471",
+    "storage_bucket": "duofactorauthentication4471.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:276598365349:android:f66ee2a0f13fdd2d",
+        "android_client_info": {
+          "package_name": "com.example.diegoalvarez.duoauthentication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "276598365349-k85rc7ea4og5dmbau5ks1t8p1o1q8i98.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEDAQsgfEoVyqjXy9AgpREUgch4r7DPCY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
