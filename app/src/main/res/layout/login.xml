@@ -16,6 +16,16 @@
         app:srcCompat="@drawable/ic_fingerprint"
         android:contentDescription="@string/back"/>
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/editText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:contentDescription="@string/common_signin_button_text"
+        app:srcCompat="@drawable/googleg_standard_color_18" />
+
     <EditText
         android:id="@+id/editText"
         android:layout_width="295dp"
@@ -35,47 +45,55 @@
 
     <EditText
         android:id="@+id/editText2"
-        android:layout_width="wrap_content"
+        android:layout_width="210dp"
         android:layout_height="40dp"
         android:layout_below="@+id/editText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="103dp"
+        android:background="@drawable/my_button_txt"
         android:ems="10"
         android:hint="@string/username"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:textAlignment="center" />
+
 
     <EditText
         android:id="@+id/editText3"
-        android:layout_width="wrap_content"
+        android:layout_width="210dp"
         android:layout_height="40dp"
         android:layout_alignStart="@+id/editText2"
         android:layout_below="@+id/editText2"
         android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="@string/pass"
-        android:inputType="textPassword" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_below="@+id/editText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:contentDescription="@string/common_signin_button_text"
-        app:srcCompat="@drawable/googleg_standard_color_18" />
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:background="@drawable/my_button_txt"/>
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
+        android:id="@+id/button3"
+        android:layout_width="150dp"
+        android:layout_height="35dp"
         android:layout_below="@+id/editText3"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="54dp"
         android:background="@drawable/my_button_bg"
         android:text="@string/sub"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="150dp"
+        android:layout_height="35dp"
+        android:layout_alignStart="@+id/button3"
+        android:layout_below="@+id/button3"
+        android:layout_marginTop="19dp"
+        android:background="@drawable/my_button_bg"
+        android:text="@string/sign"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
         android:textSize="18sp" />
 
 </RelativeLayout>

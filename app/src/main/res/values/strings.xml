@@ -6,4 +6,5 @@
     <string name="pass">Password</string>
     <string name="back">Background Image</string>
     <string name="sub">Login</string>
+    <string name="sign">Sign Up</string>
 </resources>
