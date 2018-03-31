@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="passwordManager" >
+        <item> Application: Facebook Username:Alvarez.170 Password: ABC123</item>
+        <item> Application: Twitter Username:Alvarez.170 Password: ABC123</item>
+        <item> Application: Youtube Username:Alvarez.170 Password: ABC123  </item>
+    </string-array>
+
+
+</resources>

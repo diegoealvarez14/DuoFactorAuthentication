@@ -15,27 +15,13 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:id="@+id/textView" />
 
-    <TextView
+    <Button
+        android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/textview"/>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textview"
         android:layout_centerHorizontal="true"
-        android:scaleType="matrix"
-        app:srcCompat="@drawable/ic_fingerprint" />
+        android:layout_centerVertical="true"
+        android:text="To Password Manager" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:text="@string/instructions"
-        android:layout_below="@+id/imageView"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="27dp" />
+
 </RelativeLayout>

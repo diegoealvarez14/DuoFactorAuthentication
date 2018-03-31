@@ -2,10 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.diegoalvarez.duoauthentication">
 
-    <uses-feature android:name="android.hardware.fingerprint"
-        android:required="true"/>
-    <uses-permission
-        android:name="android.permission.USE_FINGERPRINT" />
+    <uses-feature
+        android:name="android.hardware.fingerprint"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,6 +29,24 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".PasswordManager"
+            android:label="@string/title_activity_password_manager"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.diegoalvarez.duoauthentication.MainActivity" />
+        </activity>
+        <activity
+            android:name=".AddItem"
+            android:label="@string/title_activity_add_item"
+            android:parentActivityName=".PasswordManager"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.diegoalvarez.duoauthentication.PasswordManager" />
         </activity>
     </application>
 
