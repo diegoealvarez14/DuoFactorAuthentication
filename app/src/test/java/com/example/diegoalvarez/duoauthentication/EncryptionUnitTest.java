@@ -6,24 +6,16 @@ import junit.framework.*;
 
 import static junit.framework.Assert.assertTrue;
 
-public class EncryptionUnitTest extends Encryption {
-    protected String password1;
-
-    protected void setPassword1(){
-        password1 = "Hello World";
-    }
+public class EncryptionUnitTest {
+    protected String password1 = "0123456789abcdef";
 
     @org.junit.Test
-    public void testPassword1(){
-        byte[] result;
+    public void testPassword1() throws Exception {
+        String result;
+        result = Encryption.encrypt("0123456789abcdef", password1);
+        Log.d("Password Test Result", result.toString());
+        assertTrue(!result.equals(password1));
 
-        try {
-            result = encryptText(password1);
-            Log.d("Password Test Result", result.toString());
-            assertTrue(!result.toString().equals(password1));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
 
     }

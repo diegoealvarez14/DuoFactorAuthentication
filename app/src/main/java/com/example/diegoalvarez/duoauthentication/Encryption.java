@@ -1,4 +1,5 @@
 package com.example.diegoalvarez.duoauthentication;
+
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.support.annotation.NonNull;
@@ -22,6 +23,8 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.GCMParameterSpec;
 
+
+
 /**
  *
  * Created by Tony Nguyen on 3/21/2018.
@@ -31,6 +34,9 @@ import javax.crypto.spec.GCMParameterSpec;
  */
 
 public class Encryption {
+
+
+
 
     // The type of encryption you want to use to encrypt data
     private static final String ALGORITHM = "AES/GCM/NoPadding";
