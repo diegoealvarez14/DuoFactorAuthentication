@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.diegoalvarez.duoauthentication.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context="com.example.diegoalvarez.duoauthentication.FingerprintActivity"
+    tools:showIn="@layout/activity_fingerprint">
 
 
 </android.support.constraint.ConstraintLayout>
