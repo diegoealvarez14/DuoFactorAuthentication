@@ -6,13 +6,13 @@ import junit.framework.*;
 
 import static junit.framework.Assert.assertTrue;
 
-public class EncryptionUnitTest {
+public class EncryptionUnitTest extends Encryption{
     protected String password1 = "0123456789abcdef";
 
     @org.junit.Test
     public void testPassword1() throws Exception {
-        String result;
-        result = Encryption.encrypt("0123456789abcdef", password1);
+        byte[] result;
+        result = encryptText(password1);
         Log.d("Password Test Result", result.toString());
         assertTrue(!result.equals(password1));
 

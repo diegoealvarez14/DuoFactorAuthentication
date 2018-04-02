@@ -42,7 +42,6 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             finish();
             startActivity(new Intent(getApplicationContext(), PasswordManager.class));
 
-
         }
 
         progressDialog = new ProgressDialog(this);
@@ -53,7 +52,6 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
         buttonSignIn.setOnClickListener(this);
         textViewSignup.setOnClickListener(this);
-
 
 
     }
