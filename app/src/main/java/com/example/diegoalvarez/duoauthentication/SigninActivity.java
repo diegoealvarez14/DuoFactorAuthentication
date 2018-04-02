@@ -99,7 +99,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         }
         if (view==textViewSignup) {
             finish();
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, FingerprintActivity.class));
         }
     }
 }
