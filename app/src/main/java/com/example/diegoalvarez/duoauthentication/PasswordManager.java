@@ -8,11 +8,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class PasswordManager extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
+    private TextView textViewUserEmail;
 
 
     @Override
@@ -27,17 +30,25 @@ public class PasswordManager extends AppCompatActivity {
             startActivity(new Intent(this, SigninActivity.class));
         }
 
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+
+        textViewUserEmail = (TextView) findViewById(R.id.textViewUserEmail);
+
+        textViewUserEmail.setText("Welcome " + user.getEmail());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
+/*
         String [] items = getResources().getStringArray(R.array.passwordManager);
         ArrayAdapter<String> adapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1, items);
+
         ListView lv = (ListView) findViewById(R.id.listView);
         lv.setAdapter(adapter);
+        */
     }
 
 
