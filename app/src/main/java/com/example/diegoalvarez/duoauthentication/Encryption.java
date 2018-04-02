@@ -45,7 +45,7 @@ public class Encryption {
     private static final String ANDROID_KEY_STORE = "AndroidKeyStore";
 
     // The name of the alias used to retrieve the encryption key
-    private static final String KEY_ALIAS = "BadgerAlias";
+    private static final String KEY_ALIAS = "DuoFactorAuthenticationKey";
 
     // Array to hold the encrypted data in bytes
     private byte[] encryption;
