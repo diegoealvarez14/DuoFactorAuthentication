@@ -15,6 +15,18 @@
       },
       "oauth_client": [
         {
+          "client_id": "276598365349-qsdtojh8v2qi3n88dct87u1pjkdlkfbb.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "276598365349-849pj2mit05s28nmbf1vi53siasqka9o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.diegoalvarez.duoauthentication",
+            "certificate_hash": "a0d20bf1126c42a1b9a11041c273f2a587f3e238"
+          }
+        },
+        {
           "client_id": "276598365349-k85rc7ea4og5dmbau5ks1t8p1o1q8i98.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +41,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "276598365349-qsdtojh8v2qi3n88dct87u1pjkdlkfbb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

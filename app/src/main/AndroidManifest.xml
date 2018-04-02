@@ -2,10 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.diegoalvarez.duoauthentication">
 
-    <uses-feature android:name="android.hardware.fingerprint"
-        android:required="true"/>
-    <uses-permission
-        android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,6 +21,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SigninActivity" />
+        <activity android:name=".UserProfile" />
+        <activity
+            android:name=".PasswordManager"
+            android:label="@string/title_activity_password_manager"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddItem"
+            android:label="@string/title_activity_add_item"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".PasswordManager">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.diegoalvarez.duoauthentication.PasswordManager" />        </activity>
     </application>
 
 </manifest>

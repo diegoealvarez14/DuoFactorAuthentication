@@ -3,8 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.diegoalvarez.duoauthentication.FingerprintActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_addItem"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/action_addItem"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_logOut"
+        android:orderInCategory="100"
+        android:title="@string/action_logOut"
         app:showAsAction="never" />
 </menu>
