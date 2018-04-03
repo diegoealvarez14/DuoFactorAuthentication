@@ -6,6 +6,7 @@ package com.example.diegoalvarez.duoauthentication;
 
     import android.annotation.TargetApi;
     import android.content.Context;
+    import android.content.Intent;
     import android.content.pm.PackageManager;
     import android.hardware.fingerprint.FingerprintManager;
     import android.Manifest;
@@ -13,6 +14,8 @@ package com.example.diegoalvarez.duoauthentication;
     import android.os.CancellationSignal;
     import android.support.v4.app.ActivityCompat;
     import android.widget.Toast;
+
+    import static android.support.v4.content.ContextCompat.startActivity;
 
 @TargetApi(Build.VERSION_CODES.M)
 public class FingerprintHandler extends FingerprintManager.AuthenticationCallback {
@@ -69,8 +72,9 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     public void onAuthenticationSucceeded(
             FingerprintManager.AuthenticationResult result) {
 
-
         Toast.makeText(context, "Success!", Toast.LENGTH_LONG).show();
+        context.startActivity(new Intent(context,
+                PasswordManager.class));
     }
 
 }

@@ -58,11 +58,8 @@ public class FingerprintActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
 
-        // Build a GoogleSignInClient with the options specified by gso.
-        //mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        // If you’ve set your app’s minSdkVersion to anything lower than 23, then you’ll need to verify that the device is running Marshmallow
-        // or higher before executing any fingerprint-related code
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //Get an instance of KeyguardManager and FingerprintManager//
             keyguardManager =
@@ -70,9 +67,9 @@ public class FingerprintActivity extends AppCompatActivity {
             fingerprintManager =
                     (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
 
-            textView = (TextView) findViewById(R.id.textView);
+            textView = findViewById(R.id.textView);
 
-            //Check whether the device has a fingerprint sensor//
+            //Check whether the device has a fingerprint sensor
             if (!fingerprintManager.isHardwareDetected()) {
                 // If a fingerprint sensor isn’t available, then inform the user that they’ll be unable to use your app’s fingerprint functionality//
                 textView.setText("Your device doesn't support fingerprint authentication");
