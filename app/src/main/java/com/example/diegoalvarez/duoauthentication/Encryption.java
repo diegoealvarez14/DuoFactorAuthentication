@@ -3,6 +3,8 @@ package com.example.diegoalvarez.duoauthentication;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -33,10 +35,7 @@ import javax.crypto.spec.GCMParameterSpec;
  * generates and retrieves the key to encrypt with AES 256.
  */
 
-public class Encryption {
-
-
-
+public class Encryption extends AppCompatActivity {
 
     // The type of encryption you want to use to encrypt data
     private static final String ALGORITHM = "AES/GCM/NoPadding";

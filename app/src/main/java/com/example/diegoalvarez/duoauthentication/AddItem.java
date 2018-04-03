@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,21 +55,30 @@ private FirebaseUser user;
     }
 
 
-    private void saveUserInformation(){
+    private void saveUserInformation() throws Exception {
+        Encryption encryption = new Encryption();
         String app = editTextApp.getText().toString().trim();
         String userName = editTextUserName.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
-        UserInput userInput = new UserInput(app, userName, password);
+        byte[] encryptedPassword = encryption.encryptText(password);
+
+        Log.d(this.getLocalClassName(), "saveUserInformation() -> Encrypted Password: " + encryptedPassword.toString());
+        UserInput userInput = new UserInput(app, userName, encryptedPassword.toString());
 
         databaseReference.child(user.getUid()).setValue(userInput);
         Toast.makeText(this, "Information Sent to Database...", Toast.LENGTH_LONG).show();
+        startActivity(new Intent(this, PasswordManager.class));
     }
 
     @Override
     public void onClick(View view) {
         if (view == buttonSave) {
-            saveUserInformation();
+            try {
+                saveUserInformation();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
