@@ -73,8 +73,7 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
             FingerprintManager.AuthenticationResult result) {
 
         Toast.makeText(context, "Success!", Toast.LENGTH_LONG).show();
-        context.startActivity(new Intent(context,
-                PasswordManager.class));
+        context.startActivity(new Intent(context, SigninActivity.class));
     }
 
 }

@@ -36,7 +36,7 @@ public class FingerprintActivity extends AppCompatActivity {
 
 
     // Declare a string variable for the key we’re going to use in our fingerprint authentication
-    private static final String KEY_NAME = "yourKey";
+    private static final String KEY_NAME = "CSE4471";
     private Cipher cipher;
     private KeyStore keyStore;
     private KeyGenerator keyGenerator;
@@ -57,7 +57,6 @@ public class FingerprintActivity extends AppCompatActivity {
                 .requestIdToken("1046950615681-22l04bo4jrkuu2a4g4otomca35b3vn19.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
-
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -101,7 +100,7 @@ public class FingerprintActivity extends AppCompatActivity {
                     //If the cipher is initialized successfully, then create a CryptoObject instance//
                     cryptoObject = new FingerprintManager.CryptoObject(cipher);
 
-                    // Here, I’m referencing the FingerprintHandler class that we’ll create in the next section. This class will be responsible
+                    // Referencing the FingerprintHandler class that we’ll create in the next section. This class will be responsible
                     // for starting the authentication process (via the startAuth method) and processing the authentication process events//
                     FingerprintHandler helper = new FingerprintHandler(this);
                     helper.startAuth(fingerprintManager, cryptoObject);
