@@ -2,10 +2,9 @@ package com.example.diegoalvarez.duoauthentication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,9 +13,10 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import android.util.Base64;
 
 public class AddItem extends AppCompatActivity implements View.OnClickListener{
 
@@ -61,12 +61,18 @@ private FirebaseUser user;
         String userName = editTextUserName.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
-        byte[] encryptedPassword = encryption.encryptText(password);
+        byte[] encryptedPassword = encryption.encryptAES(password);
 
-        Log.d(this.getLocalClassName(), "saveUserInformation() -> Encrypted Password: " + encryptedPassword.toString());
+        //Use this to decrypt the password. Had to take some extra steps because of converting: byte[] -> String -> byte[] complications
+        //Could turn this to a method after retrieving data part is done.
+        byte[] decrypt = Base64.decode(new String(Base64.encode(encryptedPassword, 1)), 1);
+        String decryptedPassword = encryption.decryptAES(decrypt);
+        Log.d(this.getLocalClassName(), "saveUserInformation() -> Decrypted Password1: " + decryptedPassword);
+
         UserInput userInput = new UserInput(app, userName, encryptedPassword.toString());
 
         databaseReference.child(user.getUid()).setValue(userInput);
+
         Toast.makeText(this, "Information Sent to Database...", Toast.LENGTH_LONG).show();
         startActivity(new Intent(this, PasswordManager.class));
     }

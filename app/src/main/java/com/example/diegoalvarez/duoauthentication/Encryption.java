@@ -75,7 +75,7 @@ public class Encryption extends AppCompatActivity {
      * @throws BadPaddingException
      * @throws IllegalBlockSizeException
      */
-    public byte[] encryptText(final String textToEncrypt)
+    public byte[] encryptAES(final String textToEncrypt)
             throws Exception {
 
         //Makes sure that if no key exists yet it will create one with specified alias and store in KeyStore
@@ -174,6 +174,7 @@ public class Encryption extends AppCompatActivity {
         //Write the encrypted data and the IV to the Stream
         combinedBytes.write(encryptedData);
         combinedBytes.write(iv);
+        combinedBytes.close();
 
         // Convert stream to byte array and return
         return combinedBytes.toByteArray();
@@ -197,7 +198,7 @@ public class Encryption extends AppCompatActivity {
      * @throws InvalidAlgorithmParameterException
      * @throws CertificateException
      */
-    public String decryptText(final byte[] encryptedDataWithIV)
+    public String decryptAES(final byte[] encryptedDataWithIV)
             throws UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException,
             NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, IOException,
             BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException, CertificateException {
@@ -227,6 +228,8 @@ public class Encryption extends AppCompatActivity {
         // Initialize the cipher to decrypt the data with the Key and algorithm parameters
         cipher.init(Cipher.DECRYPT_MODE, getSecretKey(), new GCMParameterSpec(128, iv));
 
+        encryptedDataHolder.close();
+        encryptedIV.close();
         //Perform the decryption and return the decrypted data
         return new String(cipher.doFinal(encryptedData), "UTF-8");
     }
