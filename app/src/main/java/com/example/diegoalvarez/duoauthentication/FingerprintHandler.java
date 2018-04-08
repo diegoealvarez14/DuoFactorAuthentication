@@ -21,7 +21,7 @@ package com.example.diegoalvarez.duoauthentication;
 public class FingerprintHandler extends FingerprintManager.AuthenticationCallback {
 
     // You should use the CancellationSignal method whenever your app can no longer process user input, for example when your app goes
-    // into the background. If you don’t use this method, then other apps will be unable to access the touch sensor, including the lockscreen!//
+    // into the background. If you don’t use this method, then other apps will be unable to access the touch sensor, including the lockscreen!
 
     private CancellationSignal cancellationSignal;
     private Context context;
