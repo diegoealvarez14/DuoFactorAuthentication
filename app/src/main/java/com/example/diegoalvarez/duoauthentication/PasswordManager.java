@@ -12,10 +12,20 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 public class PasswordManager extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private TextView textViewUserEmail;
+    ListView listViewApplications;
+    private DatabaseReference databaseReference;
+
 
 
     @Override
@@ -29,9 +39,11 @@ public class PasswordManager extends AppCompatActivity {
             finish();
             startActivity(new Intent(this, SigninActivity.class));
         }
+        databaseReference  = FirebaseDatabase.getInstance().getReference();
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
+        listViewApplications = (ListView) findViewById(R.id.listViewApplications);
 
         textViewUserEmail = (TextView) findViewById(R.id.textViewUserEmail);
 
@@ -50,6 +62,7 @@ public class PasswordManager extends AppCompatActivity {
         lv.setAdapter(adapter);
         */
     }
+
 
 
     @Override

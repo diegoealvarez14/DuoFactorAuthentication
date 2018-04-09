@@ -19,4 +19,16 @@ public class UserInput {
         this.userName = userName;
         this.password = password;
     }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
