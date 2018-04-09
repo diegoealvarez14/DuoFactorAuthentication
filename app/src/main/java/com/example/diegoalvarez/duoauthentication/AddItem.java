@@ -29,16 +29,16 @@ private FirebaseUser user;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
          user = firebaseAuth.getInstance().getCurrentUser();
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        editTextApp = (EditText) findViewById(R.id.appName);
-        editTextUserName = (EditText) findViewById(R.id.userName);
-        editTextPassword = (EditText) findViewById(R.id.password);
-        buttonSave = (Button) findViewById(R.id.buttonSendToDB);
+        editTextApp = findViewById(R.id.appName);
+        editTextUserName = findViewById(R.id.userName);
+        editTextPassword = findViewById(R.id.password);
+        buttonSave = findViewById(R.id.buttonSendToDB);
 
 
         buttonSave.setOnClickListener(this);
@@ -57,31 +57,32 @@ private FirebaseUser user;
 
     private void saveUserInformation() throws Exception {
         Encryption encryption = new Encryption();
-        RSAEncryption rsa_encryption = new RSAEncryption();
+        AESHomeEncryption aesHomeEncryption = new AESHomeEncryption();
         String app = editTextApp.getText().toString().trim();
         String userName = editTextUserName.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
-<<<<<<< HEAD
         byte[] encryptedPassword = encryption.encryptAES(password);
+        //'1','2','3','4','5','6','7','8','9','0','a','b','c','d','e','f'
+        char[] testKey = {};
+        byte[] testEncryption = aesHomeEncryption.AES_Encrypt(password, testKey);
+        Log.d(this.getLocalClassName(), "Encrypted Password: " + testEncryption.toString());
+        //Log.d(this.getLocalClassName(), "Decrypted Password: ");
 
         //Could turn this to a method after retrieving data part is done.
         /* Use this to decrypt the password. Had to take some extra steps because of converting: byte[] -> String -> byte[] complications
-         *byte[] decrypt = Base64.decode(new String(Base64.encode(encryptedPassword, 1)), 1);
+        *byte[] decrypt = Base64.decode(new String(Base64.encode(encryptedPassword, 1)), 1);
         *String decryptedPassword = encryption.decryptAES(decrypt);
         *Log.d(this.getLocalClassName(), "saveUserInformation() -> Decrypted Password1: " + decryptedPassword);
         */
 
         UserInput userInput = new UserInput(app, userName, encryptedPassword.toString());
         databaseReference.child(user.getUid()).setValue(userInput);
-=======
-        //byte[] encryptedPassword = encryption.encryptAES(password);
-        byte[] encrypted_data = rsa_encryption.encryptRSA(password);
         //Use this to decrypt the password. Had to take some extra steps because of converting: byte[] -> String -> byte[] complications
 
         //Could turn this to a method after retrieving data part is done.
         //AES byte[] decrypt = Base64.decode(new String(Base64.encode(encryptedPassword, 1)), 1);
-        byte[] decrypt = Base64.decode(new String(Base64.encode(encrypted_data, 1)), 1);
+        byte[] decrypt = Base64.decode(new String(Base64.encode(encryptedPassword, 1)), 1);
         //String decryptedPassword = encryption.decryptAES(decrypt);
         //String decryptedPassword = encryption.decryptAES(decrypt);
         //Log.d(this.getLocalClassName(), "saveUserInformation() -> Decrypted Password1: " + decryptedPassword);
@@ -89,7 +90,6 @@ private FirebaseUser user;
         //UserInput userInput = new UserInput(app, userName, encryptedPassword.toString());
 
         //databaseReference.child(user.getUid()).setValue(userInput);
->>>>>>> master
 
         Toast.makeText(this, "Information Sent to Database...", Toast.LENGTH_LONG).show();
         startActivity(new Intent(this, PasswordManager.class));
