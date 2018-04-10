@@ -1,6 +1,7 @@
 package com.example.diegoalvarez.duoauthentication;
 
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -423,12 +424,29 @@ public class AESHomeEncryption extends AppCompatActivity {
      */
     public static byte[] AES_Encrypt(String message, char[] key) {
 
+        //Pad the message if it isn't length = 16
+
+        String padded_message = new String();
+        int length = message.length();
+
+
+        Log.i("length",Integer.toString(length));
+
+        if (message.length() < 16){
+            padded_message = String.format("%-16s", message).replace(' ', '#');
+        } else if (message.length() == 16){
+            padded_message = message;
+        }else{
+
+        }
+        Log.i("length",Integer.toString(padded_message.length()));
+
         char[] expandedKey = keyExpansion(key);
 
         createRoundKey(expandedKey, 0);
         addRoundKey(static_state, round_key);
 
-        fillInitialMatrix(message.toCharArray(), static_state, 0);
+        fillInitialMatrix(padded_message.toCharArray(), static_state, 0);
 
         for (int i = 1; i < ROUNDS; ++i) {
             createRoundKey(expandedKey, i * BLOCK_SIZE);
