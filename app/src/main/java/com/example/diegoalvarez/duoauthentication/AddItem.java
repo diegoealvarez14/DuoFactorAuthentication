@@ -56,7 +56,8 @@ public class AddItem extends AppCompatActivity {
         if (!TextUtils.isEmpty(app)) {
 
             String id = databaseReference.push().getKey();
-            UserInput userInput = new UserInput(app, userName, password);
+
+            UserInput userInput = new UserInput(id, app, userName, password);
             databaseReference.child(user.getUid()).child(id).setValue(userInput);
 
             Toast.makeText(this, "Sent to database", Toast.LENGTH_LONG).show();
