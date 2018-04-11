@@ -9,26 +9,33 @@ public class UserInput {
     public String appName;
     public String userName;
     public String password;
-
+    public String id;
     public UserInput() {
 
     }
 
-    public UserInput(String appName, String userName, String password) {
+    public UserInput(String id, String appName, String userName, String password) {
+        this.id = id;
         this.appName = appName;
         this.userName = userName;
         this.password = password;
     }
 
-    public String getAppName() {
+    public String getId() {
+        return id;
+    }
+    public String getAppName()
+    {
         return appName;
     }
 
-    public String getUserName() {
+    public String getUserName()
+    {
         return userName;
     }
 
-    public String getPassword() {
+    public String getPassword()
+    {
         return password;
     }
 }
