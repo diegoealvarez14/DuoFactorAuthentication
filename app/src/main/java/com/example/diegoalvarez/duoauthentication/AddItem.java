@@ -60,8 +60,9 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
         String password = editTextPassword.getText().toString().trim();
 
         //AES Key generated around passphrase "duoauth1234"
-        String keyString = "519E4F26F38B844CC81304B6A92D2859";
-        char [] key = keyString.toCharArray();
+        byte [] key = new byte[] {0x51, (byte) 0x9e,0x4f,0x26, (byte) 0xf3, (byte) 0x8b, (byte) 0x84,0x4C, (byte) 0xC8,0x13,0x04, (byte) 0xb6, (byte) 0xa9,0x2D,0x28,0x59};
+
+        Log.i("key length", "KEYLENGTH -> "+key.length);
 
         /**
          * Encrypt the password

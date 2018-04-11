@@ -7,7 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- * Created by Hayden on 4/8/18.
+ * Created by Hayden Conley on 4/1/18.
  */
 
 public class AESHomeEncryption extends AppCompatActivity {
@@ -37,7 +37,9 @@ public class AESHomeEncryption extends AppCompatActivity {
             0x8C, 0xA1, 0x89, 0x0D, 0xBF, 0xE6, 0x42, 0x68, 0x41, 0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16
     };
 
-
+    /**
+     * Table for use in the round index xor
+     */
     private static final char[] RCON = {
             0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, 0x6c, 0xd8,
             0xab, 0x4d, 0x9a, 0x2f, 0x5e, 0xbc, 0x63, 0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3,
@@ -61,6 +63,9 @@ public class AESHomeEncryption extends AppCompatActivity {
             0x66, 0xcc, 0x83, 0x1d, 0x3a, 0x74, 0xe8, 0xcb
     };
 
+    /**
+     * Table for use in AES Decryption
+     */
     public static final char[] invsbox = {
             0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3, 0x9e, 0x81,
             0xf3, 0xd7, 0xfb, 0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87, 0x34, 0x8e,
@@ -101,14 +106,16 @@ public class AESHomeEncryption extends AppCompatActivity {
             {0x0b, 0x0d, 0x09, 0x0e}};
 
 
-    // Constants for use in the encryption class
-
+    // Size of blocks to be encrypted
     public static final int BLOCK_SIZE = 16;
 
+    // Number of rounds to use in encryption of block = 10 for 128 bit key
     static final int ROUNDS = 10;
 
+    // Determine key size (16 bytes for 128 bit key)
     static final int KEY_SIZE = 16;
 
+    // Expanded key size as a result of key expansion algorithm
     static final int EXPANDED_KEY_SIZE = 176;
 
     /**
@@ -146,7 +153,13 @@ public class AESHomeEncryption extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Method to perform the byte substitution in the AES Algorithm.
+     *
+     * Looks up byte in SBOX table and swaps with corresponding value.
+     *
+     * @param state the input message in a matrix
+     */
     public static void SubBytes(char[][] state) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -156,7 +169,15 @@ public class AESHomeEncryption extends AppCompatActivity {
     }
 
 
-    //Encryption shift
+    /**
+     * Method to perform the row shifting in the AES algorithm
+     *
+     * Each row after the first is shifted left by it's index number
+     *
+     * Row 1 is rotated left 1 byte, row 2 is rotated left 2 times, etc.
+     *
+     * @param state the input message in a matrix
+     */
     public static void ShiftRows(char[][] state) {
         for (int i = 1; i < 4; i++) {
             state[i] = left_rotate(state[i], i);
@@ -164,11 +185,24 @@ public class AESHomeEncryption extends AppCompatActivity {
 
     }
 
+    /**
+     * Method to perform the rotation of each of the rows of the matrix (done separately)
+     *
+     * @param arr the input array to rotate
+     * @param times the number of bytes to rotate by
+     * @return arr the altered array containing the rotated bytes
+     */
     private static char[] left_rotate(char[] arr, int times) {
+
+        // Array must be length of 4
         assert (arr.length == 4);
+
+        // Rotations in multiples of 4 will not result in change
         if (times % 4 == 0) {
             return arr;
         }
+
+        // Do rotation
         while (times > 0) {
             char temp = arr[0];
             for (int i = 0; i < arr.length - 1; i++) {
@@ -180,19 +214,23 @@ public class AESHomeEncryption extends AppCompatActivity {
         return arr;
     }
 
+
     /**
-     * Performed by mapping each element in the current matrix with the value
-     * returned by its helper function.
-     * @param arr the array with we calculate against the galois field matrix.
+     * Method to perform the mixing of the columns in the input array
+     *
+     * @param arr the input array as a 2D matrix
      */
 
-    public static void MixColumns(char[][] arr) //method for mixColumns
-    {
+    public static void MixColumns(char[][] arr) {
+
+        // Create copy of input array to send to helper methods for calculations
         char[][] tarr = new char[4][4];
         for(int i = 0; i < 4; i++)
         {
             System.arraycopy(arr[i], 0, tarr[i], 0, 4);
         }
+
+        // Perform swapping of character with the Galois multiple
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 arr[i][j] = mcHelper(tarr, galois, i, j);
@@ -201,12 +239,13 @@ public class AESHomeEncryption extends AppCompatActivity {
     }
 
     /**
-     * Helper method of mixColumns in which compute the mixColumn formula on each element.
-     * @param arr passed in current matrix
-     * @param g the galois field
-     * @param i the row position
-     * @param j the column position
-     * @return the computed mixColumns value
+     * Helper method to find the character to place as a result of the Galois multiplication
+     *
+     * @param arr the input array
+     * @param g the galois field (2D array of multiplicative factors
+     * @param i row index in input array
+     * @param j column index in input array
+     * @return the sum (xor) of the multiplicative operations at the index in question
      */
 
     private static char mcHelper(char[][] arr, int[][] g, int i, int j)
@@ -220,6 +259,13 @@ public class AESHomeEncryption extends AppCompatActivity {
         return mcsum;
     }
 
+    /**
+     * Helper method to look up the value of the Galois Multiplication in the appropriate tables
+     *
+     * @param a multiplicative factor
+     * @param b value
+     * @return value of multiplication
+     */
     private static int mcCalc(int a, int b) //Helper method for mcHelper
     {
         if (a == 1) {
@@ -311,7 +357,7 @@ public class AESHomeEncryption extends AppCompatActivity {
     }
 
     /**
-     * XOR:s the state matrix with the round key matrix.
+     * XORs the state matrix with the round key matrix.
      *
      * @param state    Current cipher state matrix.
      * @param roundKey Current round key matrix.
@@ -324,21 +370,27 @@ public class AESHomeEncryption extends AppCompatActivity {
         }
     }
 
-
-    private static void fillInitialMatrix(char[] expandedKey, char[][] round_key_matrix, int from) {
+    /**
+     * Method to store 16 bytes of expanded key as a 2D array
+     *
+     * @param text text to store in matrix
+     * @param matrix matrix to be filled
+     * @param from index to start from
+     */
+    private static void fillInitialMatrix(char[] text, char[][] matrix, int from) {
         for (int i = 0; i < BLOCK_SIZE; ++i) {
-            int y = i % 4;
-            int x = (i - y) / 4;
-            round_key_matrix[y][x] = expandedKey[i + from];
+            int row = i % 4;
+            int col = (i - row) / 4;
+            matrix[row][col] = text[i + from];
         }
     }
 
     /**
-     * Creates the round key matrix from the expanded key. Only uses
-     * the first 16 bytes of the expanded key.
+     * Creates the round key matrix from the expanded key. Writes in 16 byte chunks
      *
      * @param expandedKey Expanded key to be used.
-     * @return The round key matrix of the expanded key's first 16 bytes.
+     * @param from The index to begin writing from
+     *
      */
     private static void createRoundKey(char[] expandedKey, int from) {
         fillInitialMatrix(expandedKey, round_key, from);
@@ -356,49 +408,76 @@ public class AESHomeEncryption extends AppCompatActivity {
         return (char) (0xff & xor);
     }
 
+    /**
+     *  Method to perform rotation, byte substitution, and xor with RCON value in
+     *  key expansion alogrithm
+     *
+     * @param temp the array of bytes being operated on
+     * @param iteration the number of the iteration to index the RCON values
+     */
     public static void xOrRconVal(char[] temp, int iteration) {
-        //rotate temp
-        char one = temp[0];
+        //Left rotate the bytes in the temp array
+        char first_byte = temp[0];
         for (int i = 0; i < 3; i++) {
             temp[i] = temp[i + 1];
         }
-        temp[3] = one;
+        temp[3] = first_byte;
 
-        //replace values with SBOX values
+        //Substitute each byte with the SBOX value at that index
         for (int i = 0; i < 4; i++) {
             temp[i] = sbox[temp[i]];
         }
 
-        // XOR value with RCON of iteration
+        /* XOR first byte value with RCON of iteration (all other bytes are 0, so xor would leave
+            them the same
+            */
         temp[0] = xor(temp[0], RCON[iteration]);
+
     }
 
-
+    /**
+     * Method to perform key expansion for AES algorithm
+     *
+     * @param key the input array of key
+     * @return expanded_key the expanded key as a result of the algorithm
+     */
     public static char[] keyExpansion(char[] key) {
         int n = BLOCK_SIZE / 4;
         int current_key_size = 0;
         int rIteration = 0;
         char[] temporary = new char[n];
 
+        // Copy the key into new key array
         for (int i = 0; i < KEY_SIZE; i++) {
             expanded_key[i] = key[i];
         }
 
+        // Increment current key size
         current_key_size += KEY_SIZE;
 
         while (current_key_size < EXPANDED_KEY_SIZE) {
+
+            //Fill temporary variable with the 4th column of the key matrix (wi+3)
 
             for (int i = 0; i < n; i++) {
                 temporary[i] = expanded_key[(current_key_size - n) + i];
             }
 
+            //Perform the g(wi+3) calculation (rotate, sub bytes, xOR with RCON[iteration])
             if (current_key_size % KEY_SIZE == 0) {
                 xOrRconVal(temporary, rIteration++);
             }
 
+            //XOR temporary byte array with index of new column - 4
             for (int i = 0; i < n; i++) {
+
+                //Get byte from index - 4
                 char former_expanded_key = expanded_key[current_key_size - KEY_SIZE];
+
+                //Get byte from temporary byte array
                 char temporary_byte = temporary[i];
+
+                //XOR values and append to expanded key
                 expanded_key[current_key_size++] = xor(former_expanded_key, temporary_byte);
             }
         }
@@ -417,21 +496,19 @@ public class AESHomeEncryption extends AppCompatActivity {
     }
 
     /**
-     * This method is used to encrypt the user text with AES (128-bit)
+     * Method to perform AES Encryption on a message given a key
      *
-     * @arg message is the message that is being encrypted
-     * @arg key is the AES key
+     * @param message the message to be encrypted
+     * @param key the key to use in encryption
+     * @return byte array of encrypted data
      */
     public static byte[] AES_Encrypt(String message, char[] key) {
 
-        //Pad the message if it isn't length = 16
-
+        // Pad the message if it isn't length = 16
         String padded_message = new String();
         int length = message.length();
 
-
-        Log.i("length",Integer.toString(length));
-
+        // PADDING -- need to review this.
         if (message.length() < 16){
             padded_message = String.format("%-16s", message).replace(' ', '#');
         } else if (message.length() == 16){
@@ -439,16 +516,21 @@ public class AESHomeEncryption extends AppCompatActivity {
         }else{
 
         }
-        Log.i("length",Integer.toString(padded_message.length()));
 
+        // Perform key expansion of encryption key
         char[] expandedKey = keyExpansion(key);
 
+        // Store the first 16 bytes of the expanded key as a 2D Matrix
         createRoundKey(expandedKey, 0);
-        addRoundKey(static_state, round_key);
 
+        // Store the message in a static state for use in encryption
         fillInitialMatrix(padded_message.toCharArray(), static_state, 0);
 
-        for (int i = 1; i < ROUNDS; ++i) {
+        //Step 2: Add the round key
+        addRoundKey(static_state, round_key);
+
+        //Perform rounds of encryption on 16 bytes of message Last round not the same as first 9
+        for (int i = 1; i < ROUNDS; i++) {
             createRoundKey(expandedKey, i * BLOCK_SIZE);
             SubBytes(static_state);
             ShiftRows(static_state);
@@ -456,10 +538,13 @@ public class AESHomeEncryption extends AppCompatActivity {
             addRoundKey(static_state, round_key);
         }
 
+        // Last round of encryption
         createRoundKey(expandedKey, ROUNDS * BLOCK_SIZE);
         SubBytes(static_state);
         ShiftRows(static_state);
         addRoundKey(static_state, round_key);
+
+        // Create byte array representation of encrypted text
 
         return createEncryptionByteArray(static_state);
 
