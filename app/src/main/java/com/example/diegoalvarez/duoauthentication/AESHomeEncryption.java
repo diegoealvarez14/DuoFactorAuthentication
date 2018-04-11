@@ -509,7 +509,7 @@ public class AESHomeEncryption extends AppCompatActivity {
         int length = message.length();
 
         // PADDING -- need to review this.
-        if (message.length() < 16){
+        if (length < 16){
             padded_message = String.format("%-16s", message).replace(' ', '#');
         } else if (message.length() == 16){
             padded_message = message;
@@ -526,10 +526,10 @@ public class AESHomeEncryption extends AppCompatActivity {
         // Store the message in a static state for use in encryption
         fillInitialMatrix(padded_message.toCharArray(), static_state, 0);
 
-        //Step 2: Add the round key
+        // Step 2: Add the round key
         addRoundKey(static_state, round_key);
 
-        //Perform rounds of encryption on 16 bytes of message Last round not the same as first 9
+        // Perform rounds of encryption on 16 bytes of message Last round not the same as first 9
         for (int i = 1; i < ROUNDS; i++) {
             createRoundKey(expandedKey, i * BLOCK_SIZE);
             SubBytes(static_state);
