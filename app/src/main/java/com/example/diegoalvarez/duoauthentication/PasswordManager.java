@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PasswordManager extends AppCompatActivity {
@@ -25,8 +27,8 @@ public class PasswordManager extends AppCompatActivity {
     private TextView textViewUserEmail;
     ListView listViewApplications;
     private DatabaseReference databaseReference;
-
-
+    FirebaseUser user;
+    List<UserInput> userInputsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +41,11 @@ public class PasswordManager extends AppCompatActivity {
             finish();
             startActivity(new Intent(this, SigninActivity.class));
         }
-        databaseReference  = FirebaseDatabase.getInstance().getReference();
+        user = firebaseAuth.getCurrentUser();
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        databaseReference  = FirebaseDatabase.getInstance().getReference(user.getUid());
 
+        userInputsList = new ArrayList<>();
         listViewApplications = (ListView) findViewById(R.id.listViewApplications);
 
         textViewUserEmail = (TextView) findViewById(R.id.textViewUserEmail);
@@ -63,7 +66,31 @@ public class PasswordManager extends AppCompatActivity {
         */
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userInputsList.clear();
 
+                for(DataSnapshot applicationSnapshot : dataSnapshot.getChildren()) {
+                    UserInput userInput = applicationSnapshot.getValue(UserInput.class);
+                    userInputsList.add(userInput);
+                }
+
+                //check the main activity on this
+                InputList adapter = new InputList(PasswordManager.this, userInputsList);
+                listViewApplications.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

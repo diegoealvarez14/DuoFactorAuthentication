@@ -72,9 +72,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             //password is null
             Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
             return;
-
         }
-
         progressDialog.setMessage("Signing in...");
         progressDialog.show();
 
@@ -86,8 +84,6 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                 if (task.isSuccessful()) {
                     finish();
                     startActivity(new Intent(getApplicationContext(), PasswordManager.class));
-
-
 
                 }
             }
