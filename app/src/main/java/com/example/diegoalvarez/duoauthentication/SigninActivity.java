@@ -83,7 +83,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
                 if (task.isSuccessful()) {
                     finish();
-                    startActivity(new Intent(getApplicationContext(), PasswordManager.class));
+                    startActivity(new Intent(getApplicationContext(), FingerprintActivity.class));
 
                 }
             }
