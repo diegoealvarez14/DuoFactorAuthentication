@@ -42,6 +42,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
             finish();
             startActivity(new Intent(getApplicationContext(), PasswordManager.class));
 
+
         }
 
         progressDialog = new ProgressDialog(this);
@@ -52,6 +53,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
 
         buttonSignIn.setOnClickListener(this);
         textViewSignup.setOnClickListener(this);
+
 
 
     }
@@ -82,6 +84,8 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                 if (task.isSuccessful()) {
                     finish();
                     startActivity(new Intent(getApplicationContext(), PasswordManager.class));
+
+                }
             }
         });
     }
@@ -93,7 +97,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         }
         if (view==textViewSignup) {
             finish();
-            startActivity(new Intent(this, PasswordManager.class));
+            startActivity(new Intent(this, MainActivity.class));
         }
     }
 }

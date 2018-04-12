@@ -40,12 +40,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
         editTextPassword = (EditText) findViewById(R.id.password);
         buttonSave = (Button) findViewById(R.id.buttonSendToDB);
 
-        buttonSave.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                saveUserInformation();
-            }
-        });
+        buttonSave.setOnClickListener(this);
     }
 
 
@@ -55,6 +50,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
         RSAEncryption rsa_encryption = new RSAEncryption();
         AESHomeEncryption aes_home = new AESHomeEncryption();
 
+        String id  = databaseReference.push().getKey();
         String app = editTextApp.getText().toString().trim();
         String userName = editTextUserName.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
@@ -71,7 +67,8 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
          */
         //byte[] encryptedPassword = encryption.encryptAES(password);
         //byte[] encrypted_data = rsa_encryption.encryptRSA(password);
-        byte[] encryptedPass = aes_home.AES_Encrypt(password, key);
+        byte [] encryptedPass = aes_home.AES_Encrypt(password, key);
+        String encryptedPassword = new String(Base64.encode(encryptedPass, 1));
 
         /**
          * Decrypt the encrypted text in the database
@@ -85,7 +82,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
         //String decryptedPassword = encryption.decryptAES(decrypt);
         //Log.d(this.getLocalClassName(), "saveUserInformation() -> Decrypted Password1: " + decryptedPassword);
 
-        UserInput userInput = new UserInput(app, userName, encryptedPass.toString());
+        UserInput userInput = new UserInput(id, app, userName, encryptedPassword);
 
         databaseReference.child(user.getUid()).setValue(userInput);
 
@@ -93,7 +90,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
         startActivity(new Intent(this, PasswordManager.class));
     }
 
-    @Override
+    /*@Override
     public void onClick(View view) {
         if (view == buttonSave) {
             try {
@@ -102,6 +99,7 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
                 e.printStackTrace();
             }
         }
+
         if (!TextUtils.isEmpty(app)) {
 
             String id = databaseReference.push().getKey();
@@ -112,7 +110,16 @@ public class AddItem extends AppCompatActivity implements View.OnClickListener{
             Toast.makeText(this, "Sent to database", Toast.LENGTH_LONG).show();
         } else {
                 Toast.makeText(this, "Please enter an app name", Toast.LENGTH_LONG).show();
-            }
+        }
+    }*/
+
+    @Override
+    public void onClick(View view) {
+        try {
+            saveUserInformation();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 
