@@ -2,12 +2,12 @@ package com.example.diegoalvarez.duoauthentication;
 
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- * Created by Hayden Conley on 4/1/18.
+
+ * Created by Hayden on 4/8/18.
  */
 
 public class AESHomeEncryption extends AppCompatActivity {
@@ -116,6 +116,7 @@ public class AESHomeEncryption extends AppCompatActivity {
     static final int KEY_SIZE = 16;
 
     // Expanded key size as a result of key expansion algorithm
+
     static final int EXPANDED_KEY_SIZE = 176;
 
     /**
@@ -161,6 +162,7 @@ public class AESHomeEncryption extends AppCompatActivity {
      * @param state the input message in a matrix
      */
     public static void SubBytes(char[][] state) {
+
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 state[i][j] = sbox[state[i][j]];
@@ -179,6 +181,7 @@ public class AESHomeEncryption extends AppCompatActivity {
      * @param state the input message in a matrix
      */
     public static void ShiftRows(char[][] state) {
+
         for (int i = 1; i < 4; i++) {
             state[i] = left_rotate(state[i], i);
         }
@@ -203,6 +206,7 @@ public class AESHomeEncryption extends AppCompatActivity {
         }
 
         // Do rotation
+
         while (times > 0) {
             char temp = arr[0];
             for (int i = 0; i < arr.length - 1; i++) {
@@ -224,6 +228,7 @@ public class AESHomeEncryption extends AppCompatActivity {
     public static void MixColumns(char[][] arr) {
 
         // Create copy of input array to send to helper methods for calculations
+
         char[][] tarr = new char[4][4];
         for(int i = 0; i < 4; i++)
         {
@@ -231,6 +236,7 @@ public class AESHomeEncryption extends AppCompatActivity {
         }
 
         // Perform swapping of character with the Galois multiple
+
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 arr[i][j] = mcHelper(tarr, galois, i, j);
@@ -281,6 +287,7 @@ public class AESHomeEncryption extends AppCompatActivity {
 
     //Decryption shift
     public static void inverseShiftRows(char[][] state) {
+
         for (int i = 1; i < 4; i++) {
             state[i] = right_rotate(state[i], i);
         }
@@ -288,6 +295,7 @@ public class AESHomeEncryption extends AppCompatActivity {
 
 
     private static char[] right_rotate(char[] arr, int times) {
+
         if (arr.length == 0 || arr.length == 1 || times % 4 == 0) {
             return arr;
         }
@@ -303,6 +311,7 @@ public class AESHomeEncryption extends AppCompatActivity {
     }
 
     public static void inverseSubBytes(char[][] state) {
+
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 state[j][i] = invsbox[state[j][i]];
@@ -424,6 +433,7 @@ public class AESHomeEncryption extends AppCompatActivity {
         temp[3] = first_byte;
 
         //Substitute each byte with the SBOX value at that index
+
         for (int i = 0; i < 4; i++) {
             temp[i] = sbox[temp[i]];
         }
@@ -442,17 +452,20 @@ public class AESHomeEncryption extends AppCompatActivity {
      * @return expanded_key the expanded key as a result of the algorithm
      */
     public static char[] keyExpansion(char[] key) {
+
         int n = BLOCK_SIZE / 4;
         int current_key_size = 0;
         int rIteration = 0;
         char[] temporary = new char[n];
 
         // Copy the key into new key array
+
         for (int i = 0; i < KEY_SIZE; i++) {
             expanded_key[i] = key[i];
         }
 
         // Increment current key size
+
         current_key_size += KEY_SIZE;
 
         while (current_key_size < EXPANDED_KEY_SIZE) {
@@ -464,6 +477,7 @@ public class AESHomeEncryption extends AppCompatActivity {
             }
 
             //Perform the g(wi+3) calculation (rotate, sub bytes, xOR with RCON[iteration])
+
             if (current_key_size % KEY_SIZE == 0) {
                 xOrRconVal(temporary, rIteration++);
             }
@@ -478,6 +492,7 @@ public class AESHomeEncryption extends AppCompatActivity {
                 char temporary_byte = temporary[i];
 
                 //XOR values and append to expanded key
+
                 expanded_key[current_key_size++] = xor(former_expanded_key, temporary_byte);
             }
         }
@@ -531,6 +546,7 @@ public class AESHomeEncryption extends AppCompatActivity {
 
         // Perform rounds of encryption on 16 bytes of message Last round not the same as first 9
         for (int i = 1; i < ROUNDS; i++) {
+
             createRoundKey(expandedKey, i * BLOCK_SIZE);
             SubBytes(static_state);
             ShiftRows(static_state);
@@ -539,6 +555,7 @@ public class AESHomeEncryption extends AppCompatActivity {
         }
 
         // Last round of encryption
+
         createRoundKey(expandedKey, ROUNDS * BLOCK_SIZE);
         SubBytes(static_state);
         ShiftRows(static_state);
@@ -684,3 +701,4 @@ public class AESHomeEncryption extends AppCompatActivity {
             {0x37, 0x39, 0x2b, 0x25, 0x0f, 0x01, 0x13, 0x1d, 0x47, 0x49, 0x5b, 0x55, 0x7f, 0x71, 0x63, 0x6d},
             {0xd7, 0xd9, 0xcb, 0xc5, 0xef, 0xe1, 0xf3, 0xfd, 0xa7, 0xa9, 0xbb, 0xb5, 0x9f, 0x91, 0x83, 0x8d}};
 }
+
