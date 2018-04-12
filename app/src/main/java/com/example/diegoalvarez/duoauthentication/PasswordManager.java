@@ -118,7 +118,6 @@ public class PasswordManager extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-//TODO fix the parameters
     private void updateDialog(final String entryId, final String appName, final String userName, final String pass) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
