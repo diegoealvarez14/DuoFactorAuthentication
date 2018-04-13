@@ -102,9 +102,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         hasLower=true;
                     }
                 }
-
-
-
+/*
+    String email = editTextEmail.getText().toString().trim();
+                if (!email.substring(email.length()-4, email.length()).equals(".com") || !email.substring(email.length()-4, email.length()).equals(".edu")) {
+                    editTextEmail.setError("Enter valid email");
+                }
+*/
                 if (editTextPassword.getText().toString().length()<=7){
                     editTextPassword.setError("Password must be at least 8 characters long");
                 }
@@ -253,7 +256,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void registerUser() {
 
 
-
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
@@ -265,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (TextUtils.isEmpty(password)) {
             //password is null
-            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter password ", Toast.LENGTH_SHORT).show();
             return;
 
         }

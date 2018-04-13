@@ -4,11 +4,12 @@
     xmlns:components="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
     android:paddingBottom="16dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
+    android:background="@drawable/gradient">
 
     <TextView
         android:id="@+id/textView"
@@ -17,7 +18,9 @@
         android:layout_above="@+id/linearLayout"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="63dp"
-        android:text="User Registration" />
+        android:text="User Registration"
+        android:textSize="24sp"
+        android:textColor="#FFFFFF"/>
 
 
     <LinearLayout
@@ -32,16 +35,26 @@
             android:layout_margin="15dp"
             android:inputType="textEmailAddress"
             android:hint="Enter your email"
+            android:textColor="#FFFFFF"
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:gravity="center"
+            android:textColorHint="#FFFFFF"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_action_user"
+            android:background="#11000000"/>
         <EditText
             android:layout_margin="15dp"
             android:inputType="textPassword"
+            android:textColor="#FFFFFF"
             android:hint="Enter your password"
+            android:gravity="center"
             android:id="@+id/editTextPassword"
+            android:textColorHint="#FFFFFF"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:drawableLeft="@drawable/ic_action_password"
+            android:layout_height="wrap_content"
+            android:background="#11000000"/>
         <TextView
             android:id="@+id/passStrength"
             android:layout_width="wrap_content"
@@ -66,25 +79,31 @@
             android:layout_width="381dp"
             android:layout_height="wrap_content"
             android:layout_above="@+id/linearLayout"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
             android:layout_marginBottom="5dp"
-            android:text="Your password must contain, at least 8 characters, uppercase, lowercase, 1 number and 1 special character" />
+            android:textColor="#FFFFFF"
+            android:text="Your password must contain, at least 8 characters, uppercase, lowercase, 1 number and 1 special character"
+            android:gravity="center"/>
 
 
         <Button
             android:layout_margin="15dp"
             android:id="@+id/buttonRegister"
             android:text="Register User"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:textSize="18sp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"/>
 
         <TextView
-            android:textAlignment="center"
-            android:text="Already Registered? Sign in here"
             android:id="@+id/textViewSignIn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Already Registered? Sign in here"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF" />
 
     </LinearLayout>
 
