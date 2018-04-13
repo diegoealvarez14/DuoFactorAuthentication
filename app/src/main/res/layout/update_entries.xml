@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient">
 
 
 
@@ -9,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
         android:inputType="textPersonName"
         android:hint="Enter New Application Name"
         android:id="@+id/editTextAppName"
@@ -20,6 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
         android:inputType="textPersonName"
         android:hint="Enter New Username"
         android:textAlignment="center"/>
@@ -29,7 +34,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:textColor="#FFFFFF"
         android:inputType="textPersonName"
+        android:textColorHint="#FFFFFF"
         android:hint="Enter New Password"
         android:textAlignment="center"/>
 
@@ -37,12 +44,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Update"
-        android:id="@+id/buttonUpdate"/>
+        android:textColor="#FFFFFF"
+        android:id="@+id/buttonUpdate"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:textSize="18sp" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Delete"
-        android:id="@+id/buttonDelete"/>
+        android:textColor="#FFFFFF"
+        android:id="@+id/buttonDelete"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:textSize="18sp"
+        android:background="@color/colorAccent"/>
+
 
 </LinearLayout>

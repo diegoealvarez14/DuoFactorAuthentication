@@ -8,16 +8,19 @@
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewApp"/>
+        android:id="@+id/textViewApp"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
         android:id="@+id/textViewUser"/>
     <TextView
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
         android:id="@+id/textViewPass"/>
 </LinearLayout>
