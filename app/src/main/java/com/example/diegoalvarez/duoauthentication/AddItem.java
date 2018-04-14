@@ -7,6 +7,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,20 +55,53 @@ public class AddItem extends AppCompatActivity {
         String userName = editTextUserName.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
+        //Instantiate new instance of class
+        AESHomeEncryption aes_home = new AESHomeEncryption();
+
+        //AES Key generated around passphrase "duoauth1234"
+        char [] key = new char[] {0x51,0x9e,0x4f,0x26,0xf3,0x8b,0x84,0x4C,0xC8,0x13,0x04,0xb6,0xa9,0x2D,0x28,0x59};
+
+        Log.i("key length", "KEYLENGTH -> "+key.length);
+
+
+
+        /**
+         * Encrypt the password
+         */
+        //byte[] encryptedPassword = encryption.encryptAES(password);
+        //byte[] encrypted_data = rsa_encryption.encryptRSA(password);
+        byte [] encryptedPass = aes_home.AES_Encrypt(password, key);
+        String encryptedPassword = new String(Base64.encode(encryptedPass, 1));
+
+        /**
+         * Decrypt the encrypted text in the database
+         */
+        //Use this to decrypt the password. Had to take some extra steps because of converting: byte[] -> String -> byte[] complications
+
+        //Could turn this to a method after retrieving data part is done.
+        //AES byte[] decrypt = Base64.decode(new String(Base64.encode(encryptedPassword, 1)), 1);
+        //po  byte[] decrypt = Base64.decode(new String(Base64.encode(encryptedPass, 1)), 1);
+        //String decryptedPassword = encryption.decryptAES(decrypt);
+        //String decryptedPassword = encryption.decryptAES(decrypt);
+        //Log.d(this.getLocalClassName(), "saveUserInformation() -> Decrypted Password1: " + decryptedPassword);
+
         if (!TextUtils.isEmpty(app)) {
 
             String id = databaseReference.push().getKey();
 
-            UserInput userInput = new UserInput(id, app, userName, password);
+            UserInput userInput = new UserInput(id, app, userName, encryptedPassword);
             databaseReference.child(user.getUid()).child(id).setValue(userInput);
 
             Toast.makeText(this, "Sent to database", Toast.LENGTH_LONG).show();
         } else {
-                Toast.makeText(this, "Please enter an app name", Toast.LENGTH_LONG).show();
-            }
+            Toast.makeText(this, "Please enter an app name", Toast.LENGTH_LONG).show();
+        }
+
 
 
     }
+
+
 
 
 }
