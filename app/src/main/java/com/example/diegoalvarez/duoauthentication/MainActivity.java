@@ -21,6 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.security.KeyStore;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -91,7 +95,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 boolean hasLower = false;
                 boolean hasSpecial = false;
                 boolean hasNumber = false;
+                Pattern pattern = Pattern.compile("[a-zA-Z0-9]*");
+                Matcher matcher = pattern.matcher(password);
 
+                if (matcher.matches()) {
+                    editTextPassword.setError("Password must contain a special character");
+                }
                 for (int i=0; i<password.length(); i++) {
                     ch = password.charAt(i);
                     if (Character.isDigit(ch)) {
@@ -102,12 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         hasLower=true;
                     }
                 }
-/*
-    String email = editTextEmail.getText().toString().trim();
-                if (!email.substring(email.length()-4, email.length()).equals(".com") || !email.substring(email.length()-4, email.length()).equals(".edu")) {
-                    editTextEmail.setError("Enter valid email");
-                }
-*/
+
                 if (editTextPassword.getText().toString().length()<=7){
                     editTextPassword.setError("Password must be at least 8 characters long");
                 }
