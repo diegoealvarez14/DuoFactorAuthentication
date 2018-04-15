@@ -91,8 +91,9 @@ public class AddItem extends AppCompatActivity {
 
             UserInput userInput = new UserInput(id, app, userName, encryptedPassword);
             databaseReference.child(user.getUid()).child(id).setValue(userInput);
-
             Toast.makeText(this, "Sent to database", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, PasswordManager.class));
+
         } else {
             Toast.makeText(this, "Please enter an app name", Toast.LENGTH_LONG).show();
         }

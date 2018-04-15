@@ -170,11 +170,11 @@ public class PasswordManager extends AppCompatActivity {
         });
     }
 
-    private void deleteInformation(String id) {
+    private boolean deleteInformation(String id) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(user.getUid()).child(id);
         databaseReference.removeValue();
-
         Toast.makeText(this, "Entry Deleted", Toast.LENGTH_SHORT).show();
+        return true;
     }
 
     private boolean updateInformation(String entryId, String appName, String userName, String pass) {
@@ -185,6 +185,7 @@ public class PasswordManager extends AppCompatActivity {
         Toast.makeText(this,"User Information Updated Successfully", Toast.LENGTH_LONG).show();
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
