@@ -3,10 +3,12 @@
     package="com.example.diegoalvarez.duoauthentication">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-feature android:name="android.hardware.fingerprint"
-            android:required="true"/>
-        <uses-permission
-            android:name="android.permission.USE_FINGERPRINT" />
+
+    <uses-feature
+        android:name="android.hardware.fingerprint"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
     <application
         android:allowBackup="true"
@@ -43,7 +45,8 @@
         <activity
             android:name=".FingerprintActivity"
             android:label="@string/title_activity_fingerprint"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".EmailVerification"></activity>
     </application>
 
 </manifest>

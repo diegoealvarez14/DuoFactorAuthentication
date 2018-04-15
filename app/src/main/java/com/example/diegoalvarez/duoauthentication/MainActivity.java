@@ -300,22 +300,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     progressDialog.dismiss();
-                    /*
+
                     FirebaseUser user = firebaseAuth.getCurrentUser();
 
                     user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(MainActivity.this, "Email Sent", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "Verification Email Sent... Please verify your email", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), EmailVerification.class));
 
                             }
                         }
                     });
-                     */
 
-                    finish();
-                    startActivity(new Intent(getApplicationContext(), PasswordManager.class));
+
                 } else {
                     progressDialog.dismiss();
                     Toast.makeText(MainActivity.this, "Failed to register... try again", Toast.LENGTH_SHORT).show();
