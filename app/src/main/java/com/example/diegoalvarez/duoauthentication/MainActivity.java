@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textViewSignin;
     TextView passStrength;
     ProgressBar progressBar;
+    public boolean canSignIn=false;
 
     private ProgressDialog progressDialog;
 
@@ -91,15 +92,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 String password = editTextPassword.getText().toString().trim();
                 char ch;
+                boolean isEightLong=false;
                 boolean hasCapital = false;
                 boolean hasLower = false;
-                boolean hasSpecial = false;
+                boolean hasSpecial;
                 boolean hasNumber = false;
                 Pattern pattern = Pattern.compile("[a-zA-Z0-9]*");
                 Matcher matcher = pattern.matcher(password);
 
                 if (matcher.matches()) {
-                    editTextPassword.setError("Password must contain a special character");
+                    hasSpecial=false;
+                } else {
+                    hasSpecial=true;
                 }
                 for (int i=0; i<password.length(); i++) {
                     ch = password.charAt(i);
@@ -111,9 +115,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         hasLower=true;
                     }
                 }
+                if (password.length()>=8) {
+                    isEightLong=true;
+                }
 
-                if (editTextPassword.getText().toString().length()<=7){
+                if (editTextPassword.getText().toString().length()<8){
                     editTextPassword.setError("Password must be at least 8 characters long");
+                }
+                if (!hasSpecial) {
+                    editTextPassword.setError("Password must contain a special character");
                 }
                 if (!hasLower) {
                     editTextPassword.setError("Password must contain a lower case letter");
@@ -124,8 +134,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (!hasNumber) {
                     editTextPassword.setError("Password must contain a number");
                 }
+
                 else {
                     passwordCalculation();
+                }
+                if (hasCapital && hasLower && hasNumber && hasSpecial && isEightLong) {
+                    canSignIn=true;
+                } else {
+                    canSignIn=false;
                 }
             }
 
@@ -136,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }
+
 
     protected void passwordCalculation(){
         String password = editTextPassword.getText().toString();
@@ -275,14 +292,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
 
         }
-
         progressDialog.setMessage("Register User...");
         progressDialog.show();
 
-        firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     progressDialog.dismiss();
                     /*
                     FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -306,12 +322,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
+
+
     }
 
     @Override
     public void onClick(View view) {
 
-        if (view == buttonRegister) {
+        if (view == buttonRegister && canSignIn) {
             registerUser();
         }
         if (view==textViewSignin) {

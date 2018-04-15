@@ -166,6 +166,7 @@ public class PasswordManager extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 deleteInformation(entryId);
+                alertDialog.dismiss();
             }
         });
     }
@@ -175,6 +176,7 @@ public class PasswordManager extends AppCompatActivity {
         databaseReference.removeValue();
 
         Toast.makeText(this, "Entry Deleted", Toast.LENGTH_SHORT).show();
+
     }
 
     private boolean updateInformation(String entryId, String appName, String userName, String pass) {
@@ -185,6 +187,7 @@ public class PasswordManager extends AppCompatActivity {
         Toast.makeText(this,"User Information Updated Successfully", Toast.LENGTH_LONG).show();
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
