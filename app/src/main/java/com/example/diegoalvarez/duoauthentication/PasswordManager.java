@@ -174,9 +174,7 @@ public class PasswordManager extends AppCompatActivity {
     private void deleteInformation(String id) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(user.getUid()).child(id);
         databaseReference.removeValue();
-
         Toast.makeText(this, "Entry Deleted", Toast.LENGTH_SHORT).show();
-
     }
 
     private boolean updateInformation(String entryId, String appName, String userName, String pass) {

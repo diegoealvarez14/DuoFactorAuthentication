@@ -224,7 +224,6 @@ public class AESHomeEncryption extends AppCompatActivity {
      *
      * @param arr the input array as a 2D matrix
      */
-
     public static void MixColumns(char[][] arr) {
 
         // Create copy of input array to send to helper methods for calculations
@@ -253,7 +252,6 @@ public class AESHomeEncryption extends AppCompatActivity {
      * @param j column index in input array
      * @return the sum (xor) of the multiplicative operations at the index in question
      */
-
     private static char mcHelper(char[][] arr, int[][] g, int i, int j)
     {
         char mcsum = 0;
@@ -287,7 +285,6 @@ public class AESHomeEncryption extends AppCompatActivity {
 
     //Decryption shift
     public static void inverseShiftRows(char[][] state) {
-
         for (int i = 1; i < 4; i++) {
             state[i] = right_rotate(state[i], i);
         }
@@ -295,7 +292,6 @@ public class AESHomeEncryption extends AppCompatActivity {
 
 
     private static char[] right_rotate(char[] arr, int times) {
-
         if (arr.length == 0 || arr.length == 1 || times % 4 == 0) {
             return arr;
         }
@@ -311,7 +307,6 @@ public class AESHomeEncryption extends AppCompatActivity {
     }
 
     public static void inverseSubBytes(char[][] state) {
-
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 state[j][i] = invsbox[state[j][i]];
@@ -350,7 +345,6 @@ public class AESHomeEncryption extends AppCompatActivity {
      * @param b Column Position of mcX
      * @return the value in the corresponding mcX table based on the a,b coordinates.
      */
-
     private static int invMcCalc(int a, int b) //Helper method for invMcHelper
     {
         if (a == 9) {
