@@ -53,7 +53,7 @@ public class EmailVerification extends AppCompatActivity implements View.OnClick
                 FirebaseAuth.getInstance().getCurrentUser().reload().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        userLogin();
+
                     }
                 });
             }
@@ -93,13 +93,13 @@ if (emailVerified) {
 
             if (task.isSuccessful()) {
                 finish();
-                startActivity(new Intent(getApplicationContext(), FingerprintActivity.class));
+                startActivity(new Intent(getApplicationContext(), SigninActivity.class));
 
             }
         }
     });
 } else {
-    Toast.makeText(this, "Please verify your email... Status: " + emailVerified, Toast.LENGTH_SHORT).show();
+    Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show();
 
 }
 

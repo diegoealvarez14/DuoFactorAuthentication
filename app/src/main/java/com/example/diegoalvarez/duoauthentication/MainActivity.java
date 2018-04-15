@@ -151,47 +151,55 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+
     }
 
 
     protected void passwordCalculation(){
         String password = editTextPassword.getText().toString();
 
-        int length = 0, uppercase = 0, lowercase = 0, digits = 0, specialChar = 0, requirements = 0;
-
-        int justLetters = 0, justNumbers = 0, concurrentUpCase = 0, concurrentLowerCase = 0;
+        int length = 0;
+        int uppercase = 0;
+        int lowercase = 0;
+        int num = 0;
+        int specialChar = 0;
+        int requirements = 0;
+        int justLetters = 0;
+        int justNumbers = 0;
+        int concurrentUpCase = 0;
+        int concurrentLowerCase = 0;
 
         length = password.length();
-        for (int i = 0; i < password.length(); i++) {
+        for (int i = 0; i < length; i++) {
             if (Character.isUpperCase(password.charAt(i)))
                 uppercase++;
             else if (Character.isLowerCase(password.charAt(i)))
                 lowercase++;
             else if (Character.isDigit(password.charAt(i)))
-                digits++;
+                num++;
 
-            specialChar = length - uppercase - lowercase - digits;
+            specialChar = length - uppercase - lowercase - num;
 
         }
-        for (int k = 0; k < password.length(); k++) {
-            if (Character.isUpperCase(password.charAt(k))) {
-                k++;
-                if (k < password.length()) {
-                    if (Character.isUpperCase(password.charAt(k))) {
+        for (int j = 0; j < length; j++) {
+            if (Character.isUpperCase(password.charAt(j))) {
+                j++;
+                if (j < password.length()) {
+                    if (Character.isUpperCase(password.charAt(j))) {
                         concurrentUpCase++;
-                        k--;
+                        j--;
                     }
                 }
             }
         }
 
-        for (int l = 0; l < password.length(); l++) {
-            if (Character.isLowerCase(password.charAt(l))) {
-                l++;
-                if (l < password.length()) {
-                    if (Character.isLowerCase(password.charAt(l))) {
+        for (int k = 0; k < password.length(); k++) {
+            if (Character.isLowerCase(password.charAt(k))) {
+                k++;
+                if (k < password.length()) {
+                    if (Character.isLowerCase(password.charAt(k))) {
                         concurrentLowerCase++;
-                        l--;
+                        k--;
                     }
                 }
             }
@@ -209,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             requirements++;
         }
 
-        if (digits > 1) {
+        if (num > 1) {
             requirements++;
         }
 
@@ -218,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-        if (digits == 0 && specialChar == 0) {
+        if (num == 0 && specialChar == 0) {
             justLetters = 1;
         }
 
@@ -226,10 +234,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             justNumbers = 1;
         }
 
-        int Total = (length * 4) + ((length - uppercase) * 2)
-                + ((length - lowercase) * 2) + (digits * 4) + (specialChar * 6)
-                + (requirements * 2) - (justLetters * length*2)
-                - (justNumbers * length*6) - (concurrentUpCase * 2) - (concurrentLowerCase * 2);
+        int Total = (length * 4) + ((length - uppercase) * 2) + ((length - lowercase) * 2)
+        + (num * 4) + (specialChar * 6) + (requirements * 2) - (justLetters * length * 2)
+                - (justNumbers * length * 6) - (concurrentUpCase * 2) - (concurrentLowerCase * 2);
 
 
         if(Total<50){
@@ -277,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void registerUser() {
 
 
-        String email = editTextEmail.getText().toString().trim();
+        final String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
 
@@ -307,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(MainActivity.this, "Verification Email Sent... Please verify your email", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "Verification Email Sent to: " +email, Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), EmailVerification.class));
 
                             }
@@ -327,11 +334,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-
         if (view == buttonRegister && canSignIn) {
             registerUser();
         }
         if (view==textViewSignin) {
+            firebaseAuth.signOut();
+            finish();
             startActivity(new Intent(this, SigninActivity.class));
         }
 

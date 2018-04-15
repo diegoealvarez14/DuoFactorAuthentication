@@ -55,6 +55,7 @@
             android:drawableLeft="@drawable/ic_action_password"
             android:layout_height="wrap_content"
             android:background="#11000000"/>
+
         <TextView
             android:id="@+id/passStrength"
             android:layout_width="wrap_content"

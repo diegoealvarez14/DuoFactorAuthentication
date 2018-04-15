@@ -81,6 +81,16 @@
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"/>
 
+        <TextView
+            android:id="@+id/veriRules"
+            android:layout_width="381dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/linearLayout"
+            android:layout_marginBottom="5dp"
+            android:textColor="#FFFFFF"
+            android:text="Click 'Refresh' once you've verified your email!"
+            android:gravity="center"/>
+
 
 
 
