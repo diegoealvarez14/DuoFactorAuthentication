@@ -166,15 +166,15 @@ public class PasswordManager extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 deleteInformation(entryId);
+                alertDialog.dismiss();
             }
         });
     }
 
-    private boolean deleteInformation(String id) {
+    private void deleteInformation(String id) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(user.getUid()).child(id);
         databaseReference.removeValue();
         Toast.makeText(this, "Entry Deleted", Toast.LENGTH_SHORT).show();
-        return true;
     }
 
     private boolean updateInformation(String entryId, String appName, String userName, String pass) {

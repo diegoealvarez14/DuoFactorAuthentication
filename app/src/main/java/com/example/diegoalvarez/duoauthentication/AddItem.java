@@ -6,7 +6,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -42,18 +44,47 @@ public class AddItem extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.password);
         buttonSave = (Button) findViewById(R.id.buttonSendToDB);
 
-        buttonSave.setOnClickListener(new View.OnClickListener(){
+        editTextPassword.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
-                saveUserInformation();
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                boolean canAddItem;
+                if (editTextPassword.getText().toString().length()>16) {
+                    canAddItem=false;
+                } else {
+                    canAddItem=true;
+                }
+
+                if (canAddItem) {
+                    buttonSave.setOnClickListener(new View.OnClickListener(){
+                        @Override
+                        public void onClick(View view) {
+                            saveUserInformation();
+                        }
+                    });
+                } else {
+                    editTextPassword.setError("Password must be 16 characters or less");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
+
+
     }
 
     private void saveUserInformation(){
         String app = editTextApp.getText().toString().trim();
         String userName = editTextUserName.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+
 
         //Instantiate new instance of class
         AESHomeEncryption aes_home = new AESHomeEncryption();
@@ -92,7 +123,9 @@ public class AddItem extends AppCompatActivity {
             UserInput userInput = new UserInput(id, app, userName, encryptedPassword);
             databaseReference.child(user.getUid()).child(id).setValue(userInput);
             Toast.makeText(this, "Sent to database", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, PasswordManager.class));
+            editTextApp.setText("");
+            editTextUserName.setText("");
+            editTextPassword.setText("");
 
         } else {
             Toast.makeText(this, "Please enter an app name", Toast.LENGTH_LONG).show();
