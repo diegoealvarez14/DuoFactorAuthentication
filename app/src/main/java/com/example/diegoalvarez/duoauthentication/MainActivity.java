@@ -38,10 +38,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button buttonRegister;
     private EditText editTextEmail;
     private EditText editTextPassword;
+    private EditText editTextConfirmPassword;
     private TextView textViewSignin;
     TextView passStrength;
     ProgressBar progressBar;
     public boolean canSignIn=false;
+    public boolean theyMatch=false;
 
     private ProgressDialog progressDialog;
 
@@ -75,12 +77,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonRegister = (Button) findViewById(R.id.buttonRegister);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        editTextConfirmPassword = (EditText) findViewById(R.id.editTextConfirmPassword);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
         textViewSignin = (TextView) findViewById(R.id.textViewSignIn);
         passStrength = (TextView) findViewById(R.id.passStrength);
         buttonRegister.setOnClickListener(this);
         textViewSignin.setOnClickListener(this);
+
+
+        editTextConfirmPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String password = editTextPassword.getText().toString().trim();
+                String confirmPass = editTextConfirmPassword.getText().toString().trim();
+                if (doPasswordsMatch(password,confirmPass)) {
+                    theyMatch=true;
+                }
+                if (!doPasswordsMatch(password,confirmPass)) {
+                    editTextConfirmPassword.setError("Passwords do not match!");
+                    theyMatch=false;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         editTextPassword.addTextChangedListener(new TextWatcher() {
             @Override
@@ -91,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 String password = editTextPassword.getText().toString().trim();
+                String confirmPass = editTextConfirmPassword.getText().toString().trim();
+
                 char ch;
                 boolean isEightLong=false;
                 boolean hasCapital = false;
@@ -105,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     hasSpecial=true;
                 }
+
                 for (int i=0; i<password.length(); i++) {
                     ch = password.charAt(i);
                     if (Character.isDigit(ch)) {
@@ -119,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     isEightLong=true;
                 }
 
-                if (editTextPassword.getText().toString().length()<8){
+                if (password.length()<8){
                     editTextPassword.setError("Password must be at least 8 characters long");
                 }
                 if (!hasSpecial) {
@@ -135,14 +167,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     editTextPassword.setError("Password must contain a number");
                 }
 
-                else {
-                    passwordCalculation();
-                }
                 if (hasCapital && hasLower && hasNumber && hasSpecial && isEightLong) {
                     canSignIn=true;
                 } else {
                     canSignIn=false;
+
                 }
+
+                passwordCalculation();
             }
 
             @Override
@@ -152,6 +184,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
+
+    }
+
+    public boolean doPasswordsMatch(String password, String confirmPassword) {
+        Pattern pattern = Pattern.compile(password, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(confirmPassword);
+
+        if (!matcher.matches()) {
+
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -334,7 +379,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if (view == buttonRegister && canSignIn) {
+        if (view == buttonRegister && canSignIn && theyMatch) {
             registerUser();
         }
         if (view==textViewSignin) {

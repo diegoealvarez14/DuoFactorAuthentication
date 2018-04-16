@@ -55,7 +55,18 @@
             android:drawableLeft="@drawable/ic_action_password"
             android:layout_height="wrap_content"
             android:background="#11000000"/>
-
+        <EditText
+            android:layout_margin="15dp"
+            android:inputType="textPassword"
+            android:textColor="#FFFFFF"
+            android:hint="Confirm password"
+            android:gravity="center"
+            android:id="@+id/editTextConfirmPassword"
+            android:textColorHint="#FFFFFF"
+            android:layout_width="match_parent"
+            android:drawableLeft="@drawable/ic_action_password"
+            android:layout_height="wrap_content"
+            android:background="#11000000"/>
         <TextView
             android:id="@+id/passStrength"
             android:layout_width="wrap_content"
