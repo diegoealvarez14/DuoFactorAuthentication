@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,9 +29,21 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.UnrecoverableEntryException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class PasswordManager extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
@@ -47,6 +60,7 @@ public class PasswordManager extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         firebaseAuth = FirebaseAuth.getInstance();
+
         if (firebaseAuth.getCurrentUser() == null) {
             finish();
             startActivity(new Intent(this, SigninActivity.class));
@@ -65,13 +79,11 @@ public class PasswordManager extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         listViewApplications.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-               UserInput userInput = userInputsList.get(i);
-
-               updateDialog(userInput.getId(), userInput.getAppName(), userInput.getUserName(), userInput.getPassword());
+                UserInput userInput = userInputsList.get(i);
+                updateDialog(userInput.getId(), userInput.getAppName(), userInput.getUserName(), userInput.getUserName());
 
                 return false;
             }
@@ -157,7 +169,11 @@ public class PasswordManager extends AppCompatActivity {
                     editTextPass.setError("Password Required");
                     return;
                 }
-                updateInformation (entryId, applicationName, applicationUserName, applicationPass);
+                try {
+                    updateInformation (entryId, applicationName, applicationUserName, applicationPass);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 alertDialog.dismiss();
             }
         });
@@ -177,10 +193,19 @@ public class PasswordManager extends AppCompatActivity {
         Toast.makeText(this, "Entry Deleted", Toast.LENGTH_SHORT).show();
     }
 
-    private boolean updateInformation(String entryId, String appName, String userName, String pass) {
+    private boolean updateInformation(String entryId, String appName, String userName, String pass) throws Exception {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(user.getUid()).child(entryId);
 
-        UserInput userInput = new UserInput(entryId, appName, userName, pass);
+        Encryption encryption = new Encryption();
+
+        byte[] encryptedPasswordByteArray = encryption.encryptAES(pass);
+        String encryptedPassword = Base64.encodeToString(encryptedPasswordByteArray, 1);
+        byte[] encryptedAppByteArray = encryption.encryptAES(appName);
+        String encryptedApp = Base64.encodeToString(encryptedAppByteArray, 1);
+        byte[] encryptedUserNameByteArray = encryption.encryptAES(userName);
+        String encryptedUserName= Base64.encodeToString(encryptedUserNameByteArray, 1);
+
+        UserInput userInput = new UserInput(entryId, encryptedApp, encryptedUserName, encryptedPassword);
         databaseReference.setValue(userInput);
         Toast.makeText(this,"User Information Updated Successfully", Toast.LENGTH_LONG).show();
         return true;
