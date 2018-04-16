@@ -34,8 +34,5 @@ public class UserInput {
         return userName;
     }
 
-    public String getPassword()
-    {
-        return password;
-    }
+    public String getPassword() { return password; }
 }
