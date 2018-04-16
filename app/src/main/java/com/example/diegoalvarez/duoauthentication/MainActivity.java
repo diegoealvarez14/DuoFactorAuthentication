@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ProgressBar progressBar;
     public boolean canSignIn=false;
     public boolean theyMatch=false;
+    public boolean validEmail=false;
 
     private ProgressDialog progressDialog;
 
@@ -85,6 +86,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonRegister.setOnClickListener(this);
         textViewSignin.setOnClickListener(this);
 
+        editTextEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String email = editTextEmail.getText().toString().trim();
+                if (emailValidation(email)) {
+                    validEmail=true;
+                } else {
+                    validEmail=false;
+                    editTextEmail.setError("Not a valid Email address!");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         editTextConfirmPassword.addTextChangedListener(new TextWatcher() {
             @Override
@@ -187,6 +210,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public static boolean emailValidation(String email){
+        String email_regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*" +
+                "@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+        Pattern pattern = Pattern.compile(email_regex);
+        Matcher matcher = pattern.matcher(email);
+
+        if (!matcher.matches()){
+
+            return false;
+        }
+
+        return true;
+
+    }
+
     public boolean doPasswordsMatch(String password, String confirmPassword) {
         Pattern pattern = Pattern.compile(password, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(confirmPassword);
@@ -280,7 +318,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         int Total = (length * 4) + ((length - uppercase) * 2) + ((length - lowercase) * 2)
-        + (num * 4) + (specialChar * 6) + (requirements * 2) - (justLetters * length * 2)
+                + (num * 4) + (specialChar * 6) + (requirements * 2) - (justLetters * length * 2)
                 - (justNumbers * length * 6) - (concurrentUpCase * 2) - (concurrentLowerCase * 2);
 
 
@@ -361,7 +399,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if (task.isSuccessful()) {
                                 Toast.makeText(MainActivity.this, "Verification Email Sent to: " +email, Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), EmailVerification.class));
-
                             }
                         }
                     });
@@ -377,7 +414,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if (view == buttonRegister && canSignIn && theyMatch) {
+        if (view == buttonRegister && canSignIn && theyMatch && validEmail) {
             registerUser();
         }
         if (view==textViewSignin) {
