@@ -49,25 +49,9 @@ public class FingerprintActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fingerprint);
 
-<<<<<<< HEAD
          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //Get an instance of KeyguardManager and FingerprintManager//
-            keyguard =
-=======
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        // Configure Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("1046950615681-22l04bo4jrkuu2a4g4otomca35b3vn19.apps.googleusercontent.com")
-                .requestEmail()
-                .build();
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //Get an instance of KeyguardManager and FingerprintManager
-            keyguardManager =
->>>>>>> 53ec4f83b5878d0edd85767c2d12db82169c0ecb
-                    (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
+            keyguard = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
             fingerprint =
                     (FingerprintManager) getSystemService(FINGERPRINT_SERVICE);
 
@@ -122,25 +106,14 @@ public class FingerprintActivity extends AppCompatActivity {
             // Obtain a reference to the Keystore using the standard Android keystore container identifier (“AndroidKeystore”)
             keyStore = KeyStore.getInstance("AndroidKeyStore");
 
-<<<<<<< HEAD
             //Generate the key//
             keyGen = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
-=======
-            //Generate the key
-            keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
->>>>>>> 53ec4f83b5878d0edd85767c2d12db82169c0ecb
 
             //Initialize an empty KeyStore
             keyStore.load(null);
 
-<<<<<<< HEAD
             //Initialize the KeyGenerator//
             keyGen.init(new
-=======
-            //Initialize the KeyGenerator
-            keyGenerator.init(new
->>>>>>> 53ec4f83b5878d0edd85767c2d12db82169c0ecb
-
                     //Specify the operation(s) this key can be used for
                     KeyGenParameterSpec.Builder(KEY_NAME,
                     KeyProperties.PURPOSE_ENCRYPT |
@@ -153,13 +126,8 @@ public class FingerprintActivity extends AppCompatActivity {
                             KeyProperties.ENCRYPTION_PADDING_PKCS7)
                     .build());
 
-<<<<<<< HEAD
             //Generate the key//
             keyGen.generateKey();
-=======
-            //Generate the key
-            keyGenerator.generateKey();
->>>>>>> 53ec4f83b5878d0edd85767c2d12db82169c0ecb
         } catch (KeyStoreException
                 | NoSuchAlgorithmException
                 | NoSuchProviderException
