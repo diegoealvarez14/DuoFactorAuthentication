@@ -22,6 +22,8 @@ import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.List;
+
 public class AddItem extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
@@ -29,6 +31,7 @@ public class AddItem extends AppCompatActivity {
     private EditText editTextApp, editTextUserName, editTextPassword;
     private Button buttonSave;
     private FirebaseUser user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class AddItem extends AppCompatActivity {
         editTextUserName = (EditText) findViewById(R.id.userName);
         editTextPassword = (EditText) findViewById(R.id.password);
         buttonSave = (Button) findViewById(R.id.buttonSendToDB);
+
 
         editTextPassword.addTextChangedListener(new TextWatcher() {
             @Override

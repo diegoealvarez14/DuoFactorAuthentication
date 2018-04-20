@@ -33,6 +33,20 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ *
+ * Created by Harman Thind
+ *
+ * This class contains the main registration logic for the application.
+ * Firebase API is used for partial authentication as well as handling sign-in features.
+ *
+ * PasswordCalculation() is our own work to check the strength of password entered.
+ * We did our own checking to close off loop holes for the user to not be able to
+ * sign in unless all the requirements are met.
+ *
+ * Firebase Information: https://firebase.google.com/docs/auth/
+ */
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Button buttonRegister;
@@ -140,8 +154,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                String password = editTextPassword.getText().toString().trim();
-                String confirmPass = editTextConfirmPassword.getText().toString().trim();
+                final String password = editTextPassword.getText().toString().trim();
+                final String confirmPass = editTextConfirmPassword.getText().toString().trim();
 
                 char ch;
                 boolean isEightLong=false;
@@ -237,29 +251,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     protected void passwordCalculation(){
-        String password = editTextPassword.getText().toString();
+        final String password = editTextPassword.getText().toString();
 
         int length = 0;
         int uppercase = 0;
         int lowercase = 0;
-        int num = 0;
+        int nums = 0;
         int specialChar = 0;
         int requirements = 0;
         int justLetters = 0;
         int justNumbers = 0;
         int concurrentUpCase = 0;
         int concurrentLowerCase = 0;
-
         length = password.length();
-        for (int i = 0; i < length; i++) {
-            if (Character.isUpperCase(password.charAt(i)))
-                uppercase++;
-            else if (Character.isLowerCase(password.charAt(i)))
-                lowercase++;
-            else if (Character.isDigit(password.charAt(i)))
-                num++;
 
-            specialChar = length - uppercase - lowercase - num;
+        for (int i = 0; i < length; i++) {
+            if (Character.isLowerCase(password.charAt(i)))
+                lowercase++;
+            else if (Character.isUpperCase(password.charAt(i)))
+                uppercase++;
+            else if (Character.isDigit(password.charAt(i)))
+                nums++;
+
+            specialChar = length - lowercase - uppercase - nums;
 
         }
         for (int j = 0; j < length; j++) {
@@ -290,15 +304,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             requirements++;
         }
 
-        if (uppercase > 1) {
-            requirements++;
-        }
-
         if (lowercase > 1) {
             requirements++;
         }
 
-        if (num > 1) {
+        if (uppercase > 1) {
+            requirements++;
+        }
+
+        if (nums > 1) {
             requirements++;
         }
 
@@ -306,8 +320,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             requirements++;
         }
 
-
-        if (num == 0 && specialChar == 0) {
+        if (nums == 0 && specialChar == 0) {
             justLetters = 1;
         }
 
@@ -316,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         int Total = (length * 4) + ((length - uppercase) * 2) + ((length - lowercase) * 2)
-                + (num * 4) + (specialChar * 6) + (requirements * 2) - (justLetters * length * 2)
+                + (nums * 5) + (specialChar * 6) + (requirements * 2) - (justLetters * length * 2)
                 - (justNumbers * length * 6) - (concurrentUpCase * 2) - (concurrentLowerCase * 2);
 
 
@@ -366,21 +379,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         final String email = editTextEmail.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
+        final String password = editTextPassword.getText().toString().trim();
 
 
         if (TextUtils.isEmpty(email)) {
             //email is null
-            Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter an email", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(password)) {
             //password is null
-            Toast.makeText(this, "Please enter password ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter a password ", Toast.LENGTH_SHORT).show();
             return;
 
         }
-        progressDialog.setMessage("Register User...");
+        progressDialog.setMessage("Registering User...");
         progressDialog.show();
 
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -404,7 +417,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 } else {
                     progressDialog.dismiss();
-                    Toast.makeText(MainActivity.this, "Failed to register... try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Failed to register... try again please", Toast.LENGTH_SHORT).show();
                 }
             }
         });

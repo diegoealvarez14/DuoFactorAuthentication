@@ -53,6 +53,7 @@ public class EmailVerification extends AppCompatActivity implements View.OnClick
                 FirebaseAuth.getInstance().getCurrentUser().reload().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(EmailVerification.this, "Refreshed!", Toast.LENGTH_SHORT).show();
 
                     }
                 });
