@@ -27,17 +27,12 @@ import javax.crypto.spec.GCMParameterSpec;
  * Created by Tony Nguyen and Hayden Conley on 3/21/2018.
  *
  * This class contains methods to encrypt and decrypt strings,
-<<<<<<< HEAD
  * generates and retrieves the key to encrypt with AES 256 using libraries.
- *
-=======
- * generates and retrieves the key to encrypt with AES 256.
  *
  * API information gathered from https://docs.oracle.com/javase/7/docs/api/javax/crypto/Cipher.html
  * and https://docs.oracle.com/javase/7/docs/api/javax/crypto/KeyGenerator.html
  *
  * https://developer.android.com/training/articles/keystore.html for keystore
->>>>>>> 53ec4f83b5878d0edd85767c2d12db82169c0ecb
  */
 
 public class Encryption extends AppCompatActivity {
