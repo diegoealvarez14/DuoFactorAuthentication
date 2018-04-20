@@ -81,29 +81,28 @@ public class EmailVerification extends AppCompatActivity implements View.OnClick
             Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
             return;
         }
-if (emailVerified) {
 
-    progressDialog.setMessage("Signing in...");
-    progressDialog.show();
+        if (emailVerified) {
 
-    firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-        @Override
-        public void onComplete(@NonNull Task<AuthResult> task) {
-            progressDialog.dismiss();
+            progressDialog.setMessage("Signing in...");
+            progressDialog.show();
 
-            if (task.isSuccessful()) {
-                finish();
-                startActivity(new Intent(getApplicationContext(), SigninActivity.class));
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
-            }
+                @Override
+                 public void onComplete(@NonNull Task<AuthResult> task) {
+                    progressDialog.dismiss();
+                    if (task.isSuccessful()) {
+                     finish();
+                     startActivity(new Intent(getApplicationContext(), SigninActivity.class));
+                    }
+                }
+
+            });
+        } else {
+            Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show();
+
         }
-    });
-} else {
-    Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show();
-
-}
-
-
 
     }
 

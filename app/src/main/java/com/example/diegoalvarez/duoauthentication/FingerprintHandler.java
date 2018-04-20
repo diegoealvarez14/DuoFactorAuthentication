@@ -20,7 +20,6 @@ import static android.support.v4.content.ContextCompat.startActivity;
 @TargetApi(Build.VERSION_CODES.M)
 public class FingerprintHandler extends FingerprintManager.AuthenticationCallback {
 
-
     private CancellationSignal cancellationSignal;
     private Context context;
 
@@ -45,8 +44,6 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     }
 
     @Override
-
-
     public void onAuthenticationFailed() {
         Toast.makeText(context, "Authentication failed", Toast.LENGTH_LONG).show();
     }
@@ -54,8 +51,9 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     @Override
     public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
         Toast.makeText(context, "Authentication help\n" + helpString, Toast.LENGTH_LONG).show();
-    }@Override
+    }
 
+    @Override
     public void onAuthenticationSucceeded(
             FingerprintManager.AuthenticationResult result) {
 

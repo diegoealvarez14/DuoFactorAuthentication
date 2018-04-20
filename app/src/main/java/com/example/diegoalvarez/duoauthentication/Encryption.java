@@ -24,13 +24,13 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.GCMParameterSpec;
 /**
  *
- * Created by Tony Nguyen on 3/21/2018.
+ * Created by Tony Nguyen and Hayden Conley on 3/21/2018.
  *
  * This class contains methods to encrypt and decrypt strings,
  * generates and retrieves the key to encrypt with AES 256.
  */
 public class Encryption extends AppCompatActivity {
-    // The type of encryption you want to use to encrypt data
+    // The type of encryption wished to be used
     private static final String ALGORITHM = "AES/GCM/NoPadding";
     // Used for getting an instance of the android KeyStore
     private static final String ANDROID_KEY_STORE = "AndroidKeyStore";
@@ -42,8 +42,10 @@ public class Encryption extends AppCompatActivity {
     public byte[] iv;
     // Android Keystore where encryption keys are stored
     private KeyStore keyStore;
+
     public Encryption() {
     }
+
     /**
      * Creates a cipher and encrypts the string passed according to that cipher.
      *

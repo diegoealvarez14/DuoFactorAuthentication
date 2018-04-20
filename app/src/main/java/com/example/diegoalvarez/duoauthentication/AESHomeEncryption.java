@@ -6,14 +6,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
-
- * Created by Hayden on 4/8/18.
+ * Created by Hayden and Tony on 4/8/18.
+ *
+ * Class created for use in CSE 4471 final project -- home implementation of AES
+ *
+ * NOTE: Key to AES is passed to both encrypt and decrypt methods.
  */
 
 public class AESHomeEncryption extends AppCompatActivity {
 
     //Constant table declarations
-
 
     /**
      * S-box table used in the AES encryption.
@@ -135,19 +137,9 @@ public class AESHomeEncryption extends AppCompatActivity {
     private static char[][] static_state = new char[BLOCK_SIZE / 4][BLOCK_SIZE / 4];
 
     /**
-     * Static mix column.
-     */
-    private static char[] mix_column = new char[4];
-
-    /**
-     * Static mix column copy.
-     */
-    private static char[] mix_column_copy = new char[4];
-
-    /**
      * Static output byte array.
      */
-    private static byte[] output_bytes = new byte[BLOCK_SIZE];
+    private static char[] output_bytes = new char[BLOCK_SIZE];
 
 
     public AESHomeEncryption() {
@@ -283,14 +275,25 @@ public class AESHomeEncryption extends AppCompatActivity {
     }
 
 
-    //Decryption shift
+    /**
+     * Method to perform the inverse shift rows operation in the decryption algorithm
+     *
+     * @param state the static data array
+     */
     public static void inverseShiftRows(char[][] state) {
         for (int i = 1; i < 4; i++) {
             state[i] = right_rotate(state[i], i);
         }
     }
 
-
+    /**
+     * Method to perform right rotation of array rows for the inverse shift operation
+     * in AES decryption
+     *
+     * @param arr the array to shift
+     * @param times the number of spaces to shift
+     * @return the resulting array
+     */
     private static char[] right_rotate(char[] arr, int times) {
         if (arr.length == 0 || arr.length == 1 || times % 4 == 0) {
             return arr;
@@ -306,6 +309,11 @@ public class AESHomeEncryption extends AppCompatActivity {
         return arr;
     }
 
+    /**
+     * Method to perform the substitution of bytes from the inverse s-box table
+     *
+     * @param state the state matrix containing user data
+     */
     public static void inverseSubBytes(char[][] state) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -314,6 +322,11 @@ public class AESHomeEncryption extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method to perform the inverse mix columns operation in the decryption of AES
+     *
+     * @param arr the matrix containing current data.
+     */
     public static void inverseMixColumns(char[][] arr) {
         char[][] tarr = new char[4][4];
         for(int i = 0; i < 4; i++)
@@ -322,31 +335,38 @@ public class AESHomeEncryption extends AppCompatActivity {
         }
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                arr[i][j] = invMcHelper(tarr, invgalois, i, j);
+                arr[i][j] = invMcHelp(tarr, invgalois, i, j);
             }
         }
     }
 
-    private static char invMcHelper(char[][] arr, int[][] igalois, int i, int j) //Helper method for invMixColumns
-    {
-        char mcsum = 0;
+    /**
+     * Helper method to perform calculation of galois multiplication with items in array
+     *
+     * @param arr state matrix copy
+     * @param igalois the inverse galois table values
+     * @param i row index
+     * @param j column index
+     * @return the result of the galois multiplication
+     */
+    private static char invMcHelp(char[][] arr, int[][] igalois, int i, int j){
+        char mc_sum = 0;
         for (int k = 0; k < 4; k++) {
             int a = igalois[i][k];
             int b = arr[k][j];
-            mcsum ^= invMcCalc(a, b);
+            mc_sum ^= invMcCalc(a, b);
         }
-        return mcsum;
+        return mc_sum;
     }
 
     /**
-     * Helper computing method for inverted mixColumns.
+     * Helper computing method for inverted mix columns operation
      *
-     * @param a Row Position of mcX.
-     * @param b Column Position of mcX
-     * @return the value in the corresponding mcX table based on the a,b coordinates.
+     * @param a Row Position of mc table.
+     * @param b Column Position of mc table.
+     * @return the value in the corresponding mc table based on the row and column coordinates.
      */
-    private static int invMcCalc(int a, int b) //Helper method for invMcHelper
-    {
+    private static int invMcCalc(int a, int b) {
         if (a == 9) {
             return mc9[b / 16][b % 16];
         } else if (a == 0xb) {
@@ -360,10 +380,10 @@ public class AESHomeEncryption extends AppCompatActivity {
     }
 
     /**
-     * XORs the state matrix with the round key matrix.
+     * Method to perform xor of state matrix with the current round key.
      *
-     * @param state    Current cipher state matrix.
-     * @param roundKey Current round key matrix.
+     * @param state current cipher state matrix.
+     * @param roundKey current round key matrix.
      */
     private static void addRoundKey(char[][] state, char[][] roundKey) {
         for (int i = 0; i < BLOCK_SIZE / 4; ++i) {
@@ -495,11 +515,11 @@ public class AESHomeEncryption extends AppCompatActivity {
     }
 
 
-    public static byte[] createEncryptionByteArray(char[][] final_state) {
+    public static char[] createEncryptionCharArray(char[][] final_state) {
         for (int i = 0; i < BLOCK_SIZE; ++i) {
             int y = i % 4;
             int x = (i - y) / 4;
-            output_bytes[i] = (byte) final_state[y][x];
+            output_bytes[i] = final_state[y][x];
         }
         return output_bytes;
     }
@@ -509,15 +529,15 @@ public class AESHomeEncryption extends AppCompatActivity {
      *
      * @param message the message to be encrypted
      * @param key the key to use in encryption
-     * @return byte array of encrypted data
+     * @return char array of encrypted data
      */
-    public static byte[] AES_Encrypt(String message, char[] key) {
+    public static char[] AES_Encrypt(String message, char[] key) {
 
         // Pad the message if it isn't length = 16
         String padded_message = new String();
         int length = message.length();
 
-        // PADDING -- need to review this.
+        // Padding used to create ideal testing. Obviously not optimal solution
         if (length < 16){
             padded_message = String.format("%-16s", message).replace(' ', '#');
         } else if (message.length() == 16){
@@ -555,35 +575,53 @@ public class AESHomeEncryption extends AppCompatActivity {
         ShiftRows(static_state);
         addRoundKey(static_state, round_key);
 
-        // Create byte array representation of encrypted text
+        // Create char array representation of encrypted text
 
-        return createEncryptionByteArray(static_state);
+        return createEncryptionCharArray(static_state);
 
     }
 
-    public byte[] AES_Decrypt(String message, char[] key) {
+    /**
+     * Method to perform AES decryption
+     *
+     * @param message the message to be decrypted
+     * @param key the key for encryption to be used for decryption
+     * @return the resulting decrypted text
+     */
+    public char[] AES_Decrypt(char[] message, char[] key) {
 
+        // Perform key expansion
         char[] expandedKey = keyExpansion(key);
 
-        createRoundKey(expandedKey, 0);
+        // Create first round key from last four words of expanded key
+        createRoundKey(expandedKey, ROUNDS * 16);
+
+        // Fill state matrix with message
+        fillInitialMatrix(message, static_state, 0);
+
+        // Perform first add of round key
         addRoundKey(static_state, round_key);
-        fillInitialMatrix(message.toCharArray(), static_state, 0);
-        inverseShiftRows(static_state);
-        inverseSubBytes(static_state);
 
-
-
-        for (int i = 1; i < ROUNDS; ++i) {
+        // Perform 9 rounds of decryption
+        for (int i = 9; i > 0 ; i--) {
+            inverseShiftRows(static_state);
+            inverseSubBytes(static_state);
             createRoundKey(expandedKey, i * BLOCK_SIZE);
             addRoundKey(static_state, round_key);
             inverseMixColumns(static_state);
-            inverseShiftRows(static_state);
-            inverseSubBytes(static_state);
         }
 
-        createRoundKey(expandedKey, ROUNDS * BLOCK_SIZE);
+        // Create final round key
+        createRoundKey(expandedKey, 0);
+
+        // Perform last round of decryption
+        inverseShiftRows(static_state);
+        inverseSubBytes(static_state);
         addRoundKey(static_state, round_key);
-        return createEncryptionByteArray(static_state);
+
+        // Output decrypted text as character array
+
+        return createEncryptionCharArray(static_state);
     }
 
 

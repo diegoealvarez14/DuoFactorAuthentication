@@ -60,7 +60,7 @@ public class FingerprintActivity extends AppCompatActivity {
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            //Get an instance of KeyguardManager and FingerprintManager//
+            //Get an instance of KeyguardManager and FingerprintManager
             keyguardManager =
                     (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
             fingerprintManager =
@@ -110,35 +110,35 @@ public class FingerprintActivity extends AppCompatActivity {
 
     }
 
-    //Create the generateKey method that we’ll use to gain access to the Android keystore and generate the encryption key//
+    //Create the generateKey method that we’ll use to gain access to the Android keystore and generate the encryption key
 
     private void generateKey() throws FingerprintException {
         try {
-            // Obtain a reference to the Keystore using the standard Android keystore container identifier (“AndroidKeystore”)//
+            // Obtain a reference to the Keystore using the standard Android keystore container identifier (“AndroidKeystore”)
             keyStore = KeyStore.getInstance("AndroidKeyStore");
 
-            //Generate the key//
+            //Generate the key
             keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
 
-            //Initialize an empty KeyStore//
+            //Initialize an empty KeyStore
             keyStore.load(null);
 
-            //Initialize the KeyGenerator//
+            //Initialize the KeyGenerator
             keyGenerator.init(new
 
-                    //Specify the operation(s) this key can be used for//
+                    //Specify the operation(s) this key can be used for
                     KeyGenParameterSpec.Builder(KEY_NAME,
                     KeyProperties.PURPOSE_ENCRYPT |
                             KeyProperties.PURPOSE_DECRYPT)
                     .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
 
-                    //Configure this key so that the user has to confirm their identity with a fingerprint each time they want to use it//
+                    //Configure this key so that the user has to confirm their identity with a fingerprint each time they want to use it
                     .setUserAuthenticationRequired(true)
                     .setEncryptionPaddings(
                             KeyProperties.ENCRYPTION_PADDING_PKCS7)
                     .build());
 
-            //Generate the key//
+            //Generate the key
             keyGenerator.generateKey();
         } catch (KeyStoreException
                 | NoSuchAlgorithmException
@@ -151,10 +151,10 @@ public class FingerprintActivity extends AppCompatActivity {
         }
     }
 
-    //Create a new method that we’ll use to initialize our cipher//
+    //Create a new method that we’ll use to initialize our cipher
     public boolean initCipher() {
         try {
-            //Obtain a cipher instance and configure it with the properties required for fingerprint authentication//
+            //Obtain a cipher instance and configure it with the properties required for fingerprint authentication
             cipher = Cipher.getInstance(
                     KeyProperties.KEY_ALGORITHM_AES + "/"
                             + KeyProperties.BLOCK_MODE_CBC + "/"
@@ -169,11 +169,11 @@ public class FingerprintActivity extends AppCompatActivity {
             SecretKey key = (SecretKey) keyStore.getKey(KEY_NAME,
                     null);
             cipher.init(Cipher.ENCRYPT_MODE, key);
-            //Return true if the cipher has been initialized successfully//
+            //Return true if the cipher has been initialized successfully
             return true;
         } catch (KeyPermanentlyInvalidatedException e) {
 
-            //Return false if cipher initialization failed//
+            //Return false if cipher initialization failed
             return false;
         } catch (KeyStoreException | CertificateException
                 | UnrecoverableKeyException | IOException
