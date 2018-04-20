@@ -28,6 +28,11 @@ import javax.crypto.spec.GCMParameterSpec;
  *
  * This class contains methods to encrypt and decrypt strings,
  * generates and retrieves the key to encrypt with AES 256.
+ *
+ * API information gathered from https://docs.oracle.com/javase/7/docs/api/javax/crypto/Cipher.html
+ * and https://docs.oracle.com/javase/7/docs/api/javax/crypto/KeyGenerator.html
+ *
+ * https://developer.android.com/training/articles/keystore.html for keystore
  */
 
 public class Encryption extends AppCompatActivity {
@@ -41,7 +46,7 @@ public class Encryption extends AppCompatActivity {
     // Alias for key store retrieval
     private static final String KEY_ALIAS = "DuoFactorAuthenticationKey";
 
-    // The initiliazation Vector
+    // The initialization vector
     public byte[] iv;
 
     // Android Keystore where encryption keys are stored for use in encryption and decryption
@@ -111,9 +116,9 @@ public class Encryption extends AppCompatActivity {
         if (!keyStore.containsAlias(KEY_ALIAS)) {
 
             // Get an instance of KeyGenerator for the specified algorithm
-            final KeyGenerator keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE);
+            final KeyGenerator keyGen = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE);
 
-            keyGenerator.init(new KeyGenParameterSpec.Builder(KEY_ALIAS,
+            keyGen.init(new KeyGenParameterSpec.Builder(KEY_ALIAS,
                     KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
                     .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
                     .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
@@ -121,7 +126,7 @@ public class Encryption extends AppCompatActivity {
                     .build());
 
             // Generate a key
-            Key k = keyGenerator.generateKey();
+            Key k = keyGen.generateKey();
 
             // Store the key in the keystore
             keyStore.setKeyEntry(KEY_ALIAS, k, null, null);
