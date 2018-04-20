@@ -2,6 +2,7 @@ package com.example.diegoalvarez.duoauthentication;
 
 /**
  * Created by Tony Nguyen on 3/21/2018.
+ * Source: https://www.androidauthority.com/how-to-add-fingerprint-authentication-to-your-android-app-747304/
  */
 
 import android.annotation.TargetApi;
@@ -15,13 +16,11 @@ import android.os.CancellationSignal;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
-import static android.support.v4.content.ContextCompat.startActivity;
-
 @TargetApi(Build.VERSION_CODES.M)
 public class FingerprintHandler extends FingerprintManager.AuthenticationCallback {
 
 
-    private CancellationSignal cancellationSignal;
+    private CancellationSignal cancel;
     private Context context;
 
     public FingerprintHandler(Context mContext) {
@@ -29,33 +28,37 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
     }
 
 
+    // Start fingerprint authentication.
     public void startAuth(FingerprintManager manager, FingerprintManager.CryptoObject cryptoObject) {
 
-        cancellationSignal = new CancellationSignal();
+        cancel = new CancellationSignal();
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        manager.authenticate(cryptoObject, cancellationSignal, 0, this, null);
+        manager.authenticate(cryptoObject, cancel, 0, this, null);
     }
 
+    // Used for error when trying to use fingerprint.
     @Override
     public void onAuthenticationError(int errMsgId, CharSequence errString) {
 
         Toast.makeText(context, "Authentication error\n" + errString, Toast.LENGTH_LONG).show();
     }
 
+    // Authentication failed
     @Override
-
-
     public void onAuthenticationFailed() {
         Toast.makeText(context, "Authentication failed", Toast.LENGTH_LONG).show();
     }
 
+
     @Override
     public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
         Toast.makeText(context, "Authentication help\n" + helpString, Toast.LENGTH_LONG).show();
-    }@Override
+    }
 
+    // Open password manager after authenticated.
+    @Override
     public void onAuthenticationSucceeded(
             FingerprintManager.AuthenticationResult result) {
 

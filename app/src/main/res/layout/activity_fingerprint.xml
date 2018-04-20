@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient">
 
+    <!--source: https://www.androidauthority.com/how-to-add-fingerprint-authentication-to-your-android-app-747304/-->
 
     <TextView
         android:id="@+id/textView3"

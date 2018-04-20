@@ -27,7 +27,8 @@ import javax.crypto.spec.GCMParameterSpec;
  * Created by Tony Nguyen on 3/21/2018.
  *
  * This class contains methods to encrypt and decrypt strings,
- * generates and retrieves the key to encrypt with AES 256.
+ * generates and retrieves the key to encrypt with AES 256 using libraries.
+ *
  */
 public class Encryption extends AppCompatActivity {
     // The type of encryption you want to use to encrypt data
