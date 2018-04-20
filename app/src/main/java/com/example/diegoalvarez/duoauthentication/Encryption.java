@@ -32,7 +32,6 @@ import javax.crypto.spec.GCMParameterSpec;
  * and https://docs.oracle.com/javase/7/docs/api/javax/crypto/KeyGenerator.html
  *
  * https://developer.android.com/training/articles/keystore.html for keystore
-
  */
 
 public class Encryption extends AppCompatActivity {
