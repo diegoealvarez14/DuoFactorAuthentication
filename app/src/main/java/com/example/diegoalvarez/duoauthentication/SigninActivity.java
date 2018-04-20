@@ -54,8 +54,6 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         buttonSignIn.setOnClickListener(this);
         textViewSignup.setOnClickListener(this);
 
-
-
     }
 
     private void userLogin() {

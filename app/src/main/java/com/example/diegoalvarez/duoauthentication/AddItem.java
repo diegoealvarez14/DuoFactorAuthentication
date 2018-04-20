@@ -93,18 +93,14 @@ public class AddItem extends AppCompatActivity {
         //AESHomeEncryption aes_home = new AESHomeEncryption();
         Encryption encryption = new Encryption();
 
-        //AES Key generated around passphrase "duoauth1234"
-        char [] key = new char[] {0x51,0x9e,0x4f,0x26,0xf3,0x8b,0x84,0x4C,0xC8,0x13,0x04,0xb6,0xa9,0x2D,0x28,0x59};
-
-        Log.i("key length", "KEYLENGTH -> "+key.length);
-
-
 
         /**
-         * Encrypt the info
+         * Encrypt user information being sent to the database
+         *
+         * All information is converted to base64 for output to Firebase console since some of the bytes cannot be represented by ASCII characters.
+         *
+         * Pushing these unrepresentable characters to the database would result in us being unable to retrieve the original data for decryption.
          */
-//        byte [] encryptedPass = aes_home.AES_Encrypt(password, key);
-//        String encryptedPassword = new String(Base64.encode(encryptedPass, 1));
         byte[] encryptedPasswordByteArray = encryption.encryptAES(password);
         String encryptedPassword = Base64.encodeToString(encryptedPasswordByteArray, 1);
         byte[] encryptedUserNameByteArray = encryption.encryptAES(userName);
@@ -113,10 +109,11 @@ public class AddItem extends AppCompatActivity {
         String encryptedApp = Base64.encodeToString(encryptedAppByteArray, 1);
 
 
+        /**
+         * Send user information to the database
+         */
         if (!TextUtils.isEmpty(app)) {
-
             String id = databaseReference.push().getKey();
-
             UserInput userInput = new UserInput(id, encryptedApp, encryptedUserName, encryptedPassword);
             databaseReference.child(user.getUid()).child(id).setValue(userInput);
             Toast.makeText(this, "Sent to database", Toast.LENGTH_LONG).show();

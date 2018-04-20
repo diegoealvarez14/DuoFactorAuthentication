@@ -50,7 +50,6 @@ public class InputList extends ArrayAdapter<UserInput> {
         TextView textViewUser = (TextView) listViewItem.findViewById(R.id.textViewUser);
         TextView textViewPass = (TextView) listViewItem.findViewById(R.id.textViewPass);
 
-
         UserInput userInput = userInputList.get(position);
 
         Encryption decrypt = new Encryption();
@@ -72,8 +71,6 @@ public class InputList extends ArrayAdapter<UserInput> {
         } catch (UnrecoverableEntryException | NoSuchAlgorithmException | NoSuchProviderException | KeyStoreException | InvalidKeyException | NoSuchPaddingException | BadPaddingException | IOException | InvalidAlgorithmParameterException | IllegalBlockSizeException | CertificateException e) {
             e.printStackTrace();
         }
-
-
 
         return listViewItem;
 

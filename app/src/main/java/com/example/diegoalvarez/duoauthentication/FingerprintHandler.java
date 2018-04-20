@@ -19,8 +19,12 @@ import android.widget.Toast;
 @TargetApi(Build.VERSION_CODES.M)
 public class FingerprintHandler extends FingerprintManager.AuthenticationCallback {
 
+<<<<<<< HEAD
 
     private CancellationSignal cancel;
+=======
+    private CancellationSignal cancellationSignal;
+>>>>>>> 53ec4f83b5878d0edd85767c2d12db82169c0ecb
     private Context context;
 
     public FingerprintHandler(Context mContext) {
@@ -57,7 +61,10 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
         Toast.makeText(context, "Authentication help\n" + helpString, Toast.LENGTH_LONG).show();
     }
 
+<<<<<<< HEAD
     // Open password manager after authenticated.
+=======
+>>>>>>> 53ec4f83b5878d0edd85767c2d12db82169c0ecb
     @Override
     public void onAuthenticationSucceeded(
             FingerprintManager.AuthenticationResult result) {
