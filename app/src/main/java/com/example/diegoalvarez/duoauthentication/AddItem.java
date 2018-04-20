@@ -24,11 +24,22 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
+/**
+ * Created by Harman Thind; worked on by Tony, Diego
+ *
+ * This class takes care of adding extra entries to the database
+ * this is our own code besides encryption.
+ *
+ *
+ */
+
 public class AddItem extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
-    private EditText editTextApp, editTextUserName, editTextPassword;
+    private EditText editTextApp;
+    private EditText editTextUserName;
+    private EditText editTextPassword;
     private Button buttonSave;
     private FirebaseUser user;
 
@@ -56,7 +67,7 @@ public class AddItem extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                boolean canAddItem;
+                final boolean canAddItem;
                 if (editTextPassword.getText().toString().length()>16) {
                     canAddItem=false;
                 } else {
@@ -89,9 +100,9 @@ public class AddItem extends AppCompatActivity {
     }
 
     private void saveUserInformation() throws Exception {
-        String app = editTextApp.getText().toString().trim();
-        String userName = editTextUserName.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
+        final String app = editTextApp.getText().toString().trim();
+        final String userName = editTextUserName.getText().toString().trim();
+        final String password = editTextPassword.getText().toString().trim();
 
         //Instantiate new instance of class
         //AESHomeEncryption aes_home = new AESHomeEncryption();

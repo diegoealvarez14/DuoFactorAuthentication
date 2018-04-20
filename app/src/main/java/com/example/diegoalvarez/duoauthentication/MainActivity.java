@@ -45,6 +45,7 @@ import com.google.firebase.auth.FirebaseUser;
  * sign in unless all the requirements are met.
  *
  * Firebase Information: https://firebase.google.com/docs/auth/
+ * Regex for emailAuthentication optained from: https://stackoverflow.com/questions/624581/what-is-the-best-java-email-address-validation-method
  */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -223,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public static boolean emailValidation(String email){
-        String email_regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*" +
+        final String email_regex = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*" +
                 "@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
         Pattern pattern = Pattern.compile(email_regex);
         Matcher matcher = pattern.matcher(email);
