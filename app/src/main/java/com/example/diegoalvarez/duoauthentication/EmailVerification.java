@@ -95,7 +95,7 @@ public class EmailVerification extends AppCompatActivity implements View.OnClick
                     progressDialog.dismiss();
                     if (task.isSuccessful()) {
                      finish();
-                     startActivity(new Intent(getApplicationContext(), SigninActivity.class));
+                     startActivity(new Intent(getApplicationContext(), PasswordManager.class));
                     }
                 }
 

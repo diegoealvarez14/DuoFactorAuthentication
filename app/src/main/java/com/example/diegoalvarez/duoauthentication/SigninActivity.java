@@ -40,7 +40,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
         if (firebaseAuth.getCurrentUser() != null ){
 
             finish();
-            startActivity(new Intent(getApplicationContext(), PasswordManager.class));
+            startActivity(new Intent(getApplicationContext(), SigninActivity.class));
 
 
         }
@@ -80,9 +80,12 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                 progressDialog.dismiss();
 
                 if (task.isSuccessful()) {
+
                     finish();
                     startActivity(new Intent(getApplicationContext(), FingerprintActivity.class));
 
+                } else {
+                    Toast.makeText(SigninActivity.this, "Incorrect Username and/or Password", Toast.LENGTH_SHORT).show();
                 }
             }
         });

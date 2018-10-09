@@ -45,7 +45,8 @@ import com.google.firebase.auth.FirebaseUser;
  * sign in unless all the requirements are met.
  *
  * Firebase Information: https://firebase.google.com/docs/auth/
- * Regex for emailAuthentication optained from: https://stackoverflow.com/questions/624581/what-is-the-best-java-email-address-validation-method
+ * Regex for emailAuthentication optained from:
+ * https://stackoverflow.com/questions/624581/what-is-the-best-java-email-address-validation-method
  */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ProgressDialog progressDialog;
 
     private FirebaseAuth firebaseAuth;
+    /*
     // Declare a string variable for the key we’re going to use in our fingerprint authentication
     private static final String KEY_NAME = "yourKey";
     private Cipher cipher;
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FingerprintManager.CryptoObject cryptoObject;
     private FingerprintManager fingerprintManager;
     private KeyguardManager keyguardManager;
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +87,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (firebaseAuth.getCurrentUser() != null ){
 
             finish();
-            startActivity(new Intent(getApplicationContext(), PasswordManager.class));
+            firebaseAuth.signOut();
+            startActivity(new Intent(getApplicationContext(), SigninActivity.class));
 
         }
         progressDialog = new ProgressDialog(this);
